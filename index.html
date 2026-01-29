@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rincian Kesalahan Dalam Menulis &amp; Kegiatan Preparasi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 100px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    
+    .toast {
+      animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+    
+    .btn-loading {
+      position: relative;
+      color: transparent !important;
+    }
+    
+    .btn-loading::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      top: 50%;
+      left: 50%;
+      margin-left: -8px;
+      margin-top: -8px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .gradient-bg {
+      background: #f8f9fa;
+      min-height: 100%;
+    }
+
+    .card-glass {
+      background: #ffffff;
+      border: 1px solid #e9ecef;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .input-field {
+      background: #ffffff;
+      border: 1px solid #dee2e6;
+      transition: all 0.2s ease;
+    }
+
+    .input-field:focus {
+      background: #ffffff;
+      border-color: #495057;
+      outline: none;
+      box-shadow: none;
+    }
+
+    .btn-primary {
+      background: #212529;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      background: #343a40;
+    }
+
+    .btn-success {
+      background: #495057;
+    }
+
+    .btn-success:hover {
+      background: #343a40;
+    }
+
+    .btn-danger {
+      background: #6c757d;
+    }
+
+    .btn-danger:hover {
+      background: #5a6268;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg text-white">
+  <div id="app-wrapper" class="h-full w-full overflow-auto custom-scrollbar">
+   <div class="min-h-full w-full p-4 md:p-6"><!-- Toast Container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2"></div><!-- Header -->
+    <header class="mb-6">
+     <div class="max-w-5xl mx-auto">
+      <h1 id="app-title" class="text-xl font-semibold text-slate-800 mb-4">Rincian Kesalahan Dalam Menulis &amp; Kegiatan Preparasi</h1><!-- Period Selection -->
+      <div class="flex gap-2 items-center text-sm"><span class="text-slate-600">Periode:</span> <input type="text" id="bulan-input" placeholder="Bulan" value="Januari" class="input-field px-3 py-1 rounded text-slate-700 text-sm focus:outline-none w-32"> <input type="text" id="tahun-input" placeholder="Tahun" value="2025" class="input-field px-3 py-1 rounded text-slate-700 text-sm focus:outline-none w-20">
+      </div>
+     </div>
+    </header><!-- Form Card -->
+    <div class="max-w-5xl mx-auto mb-6">
+     <div class="card-glass rounded-lg p-6">
+      <h2 class="text-base font-semibold text-slate-800 mb-4">Tambah Data Baru</h2>
+      <form id="error-form" class="space-y-4">
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-4"><!-- Tanggal -->
+        <div><label for="tanggal" class="block text-xs font-medium text-slate-600 mb-1">Tanggal</label> <input type="date" id="tanggal" required class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none">
+        </div><!-- NIK & Nama Dropdown -->
+        <div><label for="employee-select" class="block text-xs font-medium text-slate-600 mb-1">Pilih Karyawan</label> <select id="employee-select" class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none cursor-pointer"> <option value="">-- Pilih Karyawan --</option> <option value="4826.01.25|Aidil">4826.01.25 - Aidil</option> <option value="3438.10.23|Budi Maulana">3438.10.23 - Budi Maulana</option> <option value="5188.06.25|Abdillah Al Husain">5188.06.25 - Abdillah Al Husain</option> <option value="3136.06.23|Raihan">3136.06.23 - Raihan</option> <option value="4321.07.24|Reksy Moningka">4321.07.24 - Reksy Moningka</option> <option value="4300.06.24|Muhammat Alamin">4300.06.24 - Muhammat Alamin</option> <option value="3243.07.23|Muhammad Fajriansyah">3243.07.23 - Muhammad Fajriansyah</option> <option value="4147.05.24|LA SURI">4147.05.24 - LA SURI</option> <option value="3210.07.23|Yugo Kawiwitan">3210.07.23 - Yugo Kawiwitan</option> <option value="4299.06.24|Bayu Prasati Wahyu">4299.06.24 - Bayu Prasati Wahyu</option> <option value="4873.02.25|Agus Maulana">4873.02.25 - Agus Maulana</option> <option value="4365.07.24|Junaidi">4365.07.24 - Junaidi</option> <option value="3209.07.23|M Irfanuddin">3209.07.23 - M Irfanuddin</option> <option value="4323.07.24|Timotius hatu">4323.07.24 - Timotius hatu</option> <option value="3244.07.23|Wahyu Hidayat">3244.07.23 - Wahyu Hidayat</option> <option value="3826.02.24|Maksimus jehan">3826.02.24 - Maksimus jehan</option> <option value="4367.07.24|wildan Mashobir">4367.07.24 - wildan Mashobir</option> <option value="4366.07.24|Rahmat">4366.07.24 - Rahmat</option> <option value="3908.03.24|Ahmad Muliansyah">3908.03.24 - Ahmad Muliansyah</option> <option value="2611.08.22|Rizal Wandi">2611.08.22 - Rizal Wandi</option> <option value="manual">📝 Input Manual</option> </select>
+        </div>
+       </div><!-- Manual Input -->
+       <div id="manual-input-container" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 p-3 bg-slate-50 rounded">
+        <div><label for="manual-nik" class="block text-xs font-medium text-slate-600 mb-1">NIK Manual</label> <input type="text" id="manual-nik" placeholder="Masukkan NIK" class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none">
+        </div>
+        <div><label for="manual-nama" class="block text-xs font-medium text-slate-600 mb-1">Nama Manual</label> <input type="text" id="manual-nama" placeholder="Masukkan Nama" class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none">
+        </div>
+       </div><!-- Kesalahan Tulis -->
+       <div><label for="kesalahan-tulis" class="block text-xs font-medium text-slate-600 mb-1">Kesalahan Tulis</label> <textarea id="kesalahan-tulis" rows="2" placeholder="Tuliskan keterangan..." class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none resize-none"></textarea>
+       </div><!-- Lain-lain -->
+       <div><label for="lain-lain" class="block text-xs font-medium text-slate-600 mb-1">Lain-lain</label> <textarea id="lain-lain" rows="2" placeholder="Tuliskan keterangan..." class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none resize-none"></textarea>
+       </div><!-- Keterangan -->
+       <div><label for="keterangan" class="block text-xs font-medium text-slate-600 mb-1">Keterangan</label> <textarea id="keterangan" rows="2" placeholder="Keterangan tambahan..." class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none resize-none"></textarea>
+       </div><!-- Buttons -->
+       <div class="flex flex-wrap gap-2 pt-2"><button type="submit" id="submit-btn" class="btn-primary flex-1 min-w-[120px] px-4 py-2 text-white text-sm font-medium rounded"> Simpan Data </button> <button type="button" id="send-sheets-btn" class="btn-success flex-1 min-w-[120px] px-4 py-2 text-white text-sm font-medium rounded"> Kirim ke Spreadsheet </button> <button type="button" id="reset-btn" class="btn-danger px-4 py-2 text-white text-sm font-medium rounded"> Reset </button>
+       </div>
+      </form>
+     </div>
+    </div><!-- Data Table -->
+    <div class="max-w-6xl mx-auto">
+     <div class="card-glass rounded-lg overflow-hidden">
+      <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+       <h2 class="text-base font-semibold text-slate-800">Riwayat Data</h2>
+       <div id="record-count" class="text-xs text-slate-600">
+        0 Data
+       </div>
+      </div>
+      <div class="overflow-x-auto custom-scrollbar">
+       <table class="w-full min-w-[900px] text-xs">
+        <thead>
+         <tr class="bg-slate-50 border-b border-slate-200">
+          <th class="px-3 py-2 text-center font-medium text-slate-600">No</th>
+          <th class="px-3 py-2 text-center font-medium text-slate-600">Tanggal</th>
+          <th class="px-3 py-2 text-center font-medium text-slate-600">NIK</th>
+          <th class="px-3 py-2 text-left font-medium text-slate-600">Nama</th>
+          <th class="px-3 py-2 text-left font-medium text-slate-600">Kesalahan Tulis</th>
+          <th class="px-3 py-2 text-left font-medium text-slate-600">Lain-lain</th>
+          <th class="px-3 py-2 text-left font-medium text-slate-600">Keterangan</th>
+          <th class="px-3 py-2 text-center font-medium text-slate-600">Aksi</th>
+         </tr>
+        </thead>
+        <tbody id="data-table-body" class="divide-y divide-slate-100">
+         <tr id="empty-row">
+          <td colspan="8" class="px-3 py-16 text-center"><p class="text-slate-400 text-sm">Belum ada data</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+     </div>
+    </div><!-- Reset Confirmation Modal -->
+    <div id="reset-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+     <div class="absolute inset-0 bg-black/30" onclick="closeResetModal()"></div>
+     <div class="relative card-glass rounded-lg p-6 max-w-sm w-full">
+      <h3 class="text-base font-semibold text-slate-800 mb-2">Konfirmasi Reset</h3>
+      <p class="text-sm text-slate-600 mb-6">Hapus semua data? Tindakan ini tidak dapat dibatalkan.</p>
+      <div class="flex gap-2"><button onclick="closeResetModal()" class="flex-1 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded"> Batal </button> <button onclick="confirmReset()" id="confirm-reset-btn" class="btn-danger flex-1 px-4 py-2 text-white text-sm font-medium rounded"> Hapus </button>
+      </div>
+     </div>
+    </div><!-- Footer -->
+    <footer class="mt-8 text-center text-slate-400 text-xs pb-4">
+     <p>v.31 - GitHub Pages Edition</p>
+    </footer>
+   </div>
+  </div>
+  <script>
+    // App state - using localStorage for persistence
+    let currentData = [];
+    const STORAGE_KEY = 'rincian_kesalahan_data';
+
+    // Google Apps Script URL
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWHUDcaVhQC5zPoRl6MyNFmrkbcvuP2zZrUdmbwhioYZHGfFpZZHO2We3LBa2acnFV/exec';
+
+    // Load data from localStorage
+    function loadData() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          currentData = JSON.parse(saved);
+          renderTable(currentData);
+        }
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    }
+
+    // Save data to localStorage
+    function saveData() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+      } catch (error) {
+        console.error('Error saving data:', error);
+      }
+    }
+
+    // Toast notification
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      const bgColor = type === 'success' ? '#212529' : type === 'error' ? '#6c757d' : '#495057';
+      
+      toast.className = `toast text-white px-4 py-2 rounded text-sm shadow-lg`;
+      toast.style.backgroundColor = bgColor;
+      toast.textContent = message;
+      
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Format date for display
+    function formatDate(dateStr) {
+      if (!dateStr) return '-';
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    // Render data table
+    function renderTable(data) {
+      const tbody = document.getElementById('data-table-body');
+      const countEl = document.getElementById('record-count');
+      
+      countEl.textContent = `${data.length} Data`;
+      
+      if (data.length === 0) {
+        tbody.innerHTML = `
+          <tr id="empty-row">
+            <td colspan="8" class="px-3 py-16 text-center">
+              <p class="text-slate-400 text-sm">Belum ada data</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      // Sort by date ascending (oldest first)
+      const sortedData = [...data].sort((a, b) => {
+        return new Date(a.tanggal) - new Date(b.tanggal);
+      });
+      
+      tbody.innerHTML = sortedData.map((item, index) => `
+        <tr class="hover:bg-slate-50" data-id="${item.id}">
+          <td class="px-3 py-2 text-slate-600 text-center">${index + 1}</td>
+          <td class="px-3 py-2 text-slate-800 text-center">${formatDate(item.tanggal)}</td>
+          <td class="px-3 py-2 text-slate-600 text-center font-mono">${item.nik || '-'}</td>
+          <td class="px-3 py-2 text-slate-800 text-center">${item.nama || '-'}</td>
+          <td class="px-3 py-2 text-slate-600 text-left max-w-xs">${item.kesalahan_tulis || '-'}</td>
+          <td class="px-3 py-2 text-slate-600 text-left max-w-xs">${item.lain_lain || '-'}</td>
+          <td class="px-3 py-2 text-slate-600 text-left max-w-xs">${item.keterangan || '-'}</td>
+          <td class="px-3 py-2 text-center">
+            <button onclick="deleteItem('${item.id}')" class="p-1 text-slate-400 hover:text-red-600" title="Hapus">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Delete single item
+    function deleteItem(id) {
+      currentData = currentData.filter(item => item.id !== id);
+      saveData();
+      renderTable(currentData);
+      showToast('Data berhasil dihapus');
+    }
+
+    // Reset modal functions
+    function openResetModal() {
+      if (currentData.length === 0) {
+        showToast('Tidak ada data untuk dihapus', 'error');
+        return;
+      }
+      document.getElementById('reset-modal').classList.remove('hidden');
+    }
+
+    function closeResetModal() {
+      document.getElementById('reset-modal').classList.add('hidden');
+    }
+
+    function confirmReset() {
+      currentData = [];
+      saveData();
+      renderTable(currentData);
+      showToast('Semua data berhasil dihapus');
+      closeResetModal();
+    }
+
+    // Send data to Google Sheets
+    async function sendToSheets() {
+      const btn = document.getElementById('send-sheets-btn');
+      
+      if (currentData.length === 0) {
+        showToast('Tidak ada data untuk dikirim', 'error');
+        return;
+      }
+      
+      btn.classList.add('btn-loading');
+      btn.disabled = true;
+      
+      try {
+        const bulan = document.getElementById('bulan-input').value || 'Januari';
+        const tahun = document.getElementById('tahun-input').value || '2025';
+        
+        // Sort data by date before sending
+        const sortedData = [...currentData].sort((a, b) => {
+          return new Date(a.tanggal) - new Date(b.tanggal);
+        });
+        
+        // Format data with row numbers starting from 1
+        const dataToSend = sortedData.map((item, index) => ({
+          no: index + 1,
+          tanggal: formatDate(item.tanggal),
+          nik: item.nik || '',
+          nama: item.nama || '',
+          kesalahan_tulis: item.kesalahan_tulis || '',
+          lain_lain: item.lain_lain || '',
+          keterangan: item.keterangan || '',
+          id: item.id
+        }));
+        
+        const payload = {
+          header: {
+            bulan: bulan,
+            tahun: tahun,
+            judul: 'Rincian Kesalahan Dalam Menulis & Kegiatan Preparasi'
+          },
+          data: dataToSend
+        };
+        
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload)
+        });
+        
+        showToast(`${dataToSend.length} data berhasil dikirim ke Spreadsheet!`);
+      } catch (error) {
+        showToast('Terjadi kesalahan saat mengirim data', 'error');
+      } finally {
+        btn.classList.remove('btn-loading');
+        btn.disabled = false;
+      }
+    }
+
+    // Initialize app
+    function initApp() {
+      // Load existing data
+      loadData();
+      
+      // Set today's date as default
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('tanggal').value = today;
+      
+      // Employee select handler
+      const employeeSelect = document.getElementById('employee-select');
+      const manualContainer = document.getElementById('manual-input-container');
+      
+      employeeSelect.addEventListener('change', (e) => {
+        if (e.target.value === 'manual') {
+          manualContainer.classList.remove('hidden');
+        } else {
+          manualContainer.classList.add('hidden');
+          document.getElementById('manual-nik').value = '';
+          document.getElementById('manual-nama').value = '';
+        }
+      });
+      
+      // Form submission
+      document.getElementById('error-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submit-btn');
+        
+        // Check data limit
+        if (currentData.length >= 999) {
+          showToast('Batas maksimum 999 data tercapai!', 'error');
+          return;
+        }
+        
+        const employeeValue = employeeSelect.value;
+        let nik, nama;
+        
+        if (employeeValue === 'manual') {
+          nik = document.getElementById('manual-nik').value.trim();
+          nama = document.getElementById('manual-nama').value.trim();
+          if (!nik || !nama) {
+            showToast('Mohon isi NIK dan Nama manual', 'error');
+            return;
+          }
+        } else if (employeeValue) {
+          [nik, nama] = employeeValue.split('|');
+        } else {
+          showToast('Mohon pilih karyawan', 'error');
+          return;
+        }
+        
+        const tanggal = document.getElementById('tanggal').value;
+        const kesalahanTulis = document.getElementById('kesalahan-tulis').value.trim();
+        const lainLain = document.getElementById('lain-lain').value.trim();
+        const keterangan = document.getElementById('keterangan').value.trim();
+        
+        if (!tanggal) {
+          showToast('Mohon isi tanggal', 'error');
+          return;
+        }
+        
+        const newRecord = {
+          id: Date.now().toString(),
+          tanggal: tanggal,
+          nik: nik,
+          nama: nama,
+          kesalahan_tulis: kesalahanTulis,
+          lain_lain: lainLain,
+          keterangan: keterangan
+        };
+        
+        currentData.push(newRecord);
+        saveData();
+        renderTable(currentData);
+        showToast('Data berhasil disimpan!');
+        
+        // Reset form
+        employeeSelect.value = '';
+        manualContainer.classList.add('hidden');
+        document.getElementById('manual-nik').value = '';
+        document.getElementById('manual-nama').value = '';
+        document.getElementById('kesalahan-tulis').value = '';
+        document.getElementById('lain-lain').value = '';
+        document.getElementById('keterangan').value = '';
+        document.getElementById('tanggal').value = today;
+      });
+      
+      // Reset button
+      document.getElementById('reset-btn').addEventListener('click', openResetModal);
+      
+      // Send to sheets button
+      document.getElementById('send-sheets-btn').addEventListener('click', sendToSheets);
+      
+      showToast('Aplikasi siap digunakan!', 'info');
+    }
+
+    // Start app
+    initApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c54861ec17c8740',t:'MTc2OTY0NTYwOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
