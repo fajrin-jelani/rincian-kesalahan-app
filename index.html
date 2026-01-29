@@ -232,8 +232,7 @@
      </div>
     </div><!-- Footer -->
     <footer class="mt-8 text-center text-slate-400 text-xs pb-4">
-     <p>v.33 - Smart Multi-Device Sync</p>
-     <p class="mt-1 text-slate-500">������� Data dari semua device tersinkron otomatis</p>
+     <p>v.33 - Profile &amp; Password Edition</p>
     </footer>
    </div>
   </div>
@@ -247,13 +246,9 @@
     const STORAGE_KEY = 'rincian_kesalahan_data';
     const PROFILE_KEY = 'rincian_app_profile';
     const PERIOD_KEY = 'rincian_app_period';
-    const SENT_DATA_KEY = 'rincian_sent_data'; // Key untuk menyimpan data yang sudah terkirim
 
-    // Google Apps Script URL - GANTI DENGAN URL DEPLOYMENT ANDA
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxKYaL420PwAgYRFTJ-l01cSVMU0PrEIzG0SQS1fnzs4WUCGzwoCbpxaXIKiNXCdc1A/exec';
-    
-    // Status koneksi
-    let connectionStatus = { connected: false, lastCheck: null };
+    // Google Apps Script URL
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWHUDcaVhQC5zPoRl6MyNFmrkbcvuP2zZrUdmbwhioYZHGfFpZZHO2We3LBa2acnFV/exec';
 
     // Check if user is logged in
     function checkAuth() {
@@ -361,7 +356,7 @@
       try {
         const profile = { name, photo };
         localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
-        showToast('Profil berhasil disimpan! ��');
+        showToast('Profil berhasil disimpan! ✨');
       } catch (error) {
         console.error('Error saving profile:', error);
         showToast('Gagal menyimpan profil', 'error');
@@ -375,14 +370,12 @@
       // Check file size (max 2MB)
       if (file.size > 2 * 1024 * 1024) {
         showToast('Ukuran file maksimal 2MB', 'error');
-        event.target.value = '';
         return;
       }
       
       // Check file type
       if (!file.type.startsWith('image/')) {
         showToast('File harus berupa gambar', 'error');
-        event.target.value = '';
         return;
       }
       
@@ -393,11 +386,7 @@
         img.src = e.target.result;
         img.classList.remove('hidden');
         placeholder.classList.add('hidden');
-        showToast('Foto berhasil diupload! Klik "Simpan Profil" 📸', 'info');
-      };
-      reader.onerror = function() {
-        showToast('Gagal membaca file gambar', 'error');
-        event.target.value = '';
+        showToast('Foto berhasil diupload! Klik "Simpan Profil"', 'info');
       };
       reader.readAsDataURL(file);
     }
@@ -514,38 +503,8 @@
       currentData = [];
       saveData();
       renderTable(currentData);
-      showToast('Semua data lokal berhasil dihapus (Data di spreadsheet tetap aman)');
+      showToast('Semua data berhasil dihapus');
       closeResetModal();
-    }
-
-    // Load sent data history
-    function loadSentData() {
-      try {
-        const saved = localStorage.getItem(SENT_DATA_KEY);
-        return saved ? JSON.parse(saved) : [];
-      } catch (error) {
-        console.error('Error loading sent data:', error);
-        return [];
-      }
-    }
-
-    // Save sent data history
-    function saveSentData(sentData) {
-      try {
-        localStorage.setItem(SENT_DATA_KEY, JSON.stringify(sentData));
-      } catch (error) {
-        console.error('Error saving sent data:', error);
-      }
-    }
-
-    // Get unique device ID
-    function getDeviceId() {
-      let deviceId = localStorage.getItem('device_id');
-      if (!deviceId) {
-        deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('device_id', deviceId);
-      }
-      return deviceId;
     }
 
     // Send data to Google Sheets
@@ -563,36 +522,14 @@
       try {
         const bulan = document.getElementById('bulan-input').value || 'Januari';
         const tahun = document.getElementById('tahun-input').value || '2025';
-        const deviceId = getDeviceId();
         
-        // Load previously sent data from all devices
-        const sentDataHistory = loadSentData();
-        
-        // Create a map to store all unique data by ID
-        const allDataMap = new Map();
-        
-        // Add previously sent data first
-        sentDataHistory.forEach(item => {
-          allDataMap.set(item.id, item);
-        });
-        
-        // Add/update with current data (overwrites if same ID)
-        currentData.forEach(item => {
-          // Add device ID to track which device created this data
-          const itemWithDevice = {
-            ...item,
-            device_id: item.device_id || deviceId
-          };
-          allDataMap.set(item.id, itemWithDevice);
-        });
-        
-        // Convert map to array and sort by date
-        const allData = Array.from(allDataMap.values()).sort((a, b) => {
+        // Sort data by date before sending
+        const sortedData = [...currentData].sort((a, b) => {
           return new Date(a.tanggal) - new Date(b.tanggal);
         });
         
         // Format data with row numbers starting from 1
-        const dataToSend = allData.map((item, index) => ({
+        const dataToSend = sortedData.map((item, index) => ({
           no: index + 1,
           tanggal: formatDate(item.tanggal),
           nik: item.nik || '',
@@ -600,8 +537,7 @@
           kesalahan_tulis: item.kesalahan_tulis || '',
           lain_lain: item.lain_lain || '',
           keterangan: item.keterangan || '',
-          id: item.id,
-          device_id: item.device_id || deviceId
+          id: item.id
         }));
         
         const payload = {
@@ -610,16 +546,10 @@
             tahun: tahun,
             judul: 'Rincian Kesalahan Dalam Menulis & Kegiatan Preparasi'
           },
-          data: dataToSend,
-          device_id: deviceId,
-          total_devices: new Set(allData.map(item => item.device_id || deviceId)).size
+          data: dataToSend
         };
         
-        console.log('Mengirim data:', payload);
-        console.log('Total data yang dikirim:', dataToSend.length);
-        
-        // Use no-cors mode and simpler approach
-        const response = await fetch(APPS_SCRIPT_URL, {
+        await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
           headers: {
@@ -628,42 +558,9 @@
           body: JSON.stringify(payload)
         });
         
-        console.log('Request berhasil dikirim (no-cors mode)');
-        
-        // In no-cors mode, we can't read the response
-        // So we assume success if no error is thrown
-        
-        // Save all data as sent data history (this becomes the master record)
-        saveSentData(allData);
-        
-        // Update current data with device IDs
-        currentData = currentData.map(item => ({
-          ...item,
-          device_id: item.device_id || deviceId
-        }));
-        saveData();
-        
-        const deviceCount = new Set(allData.map(item => item.device_id || deviceId)).size;
-        showToast(`✅ ${dataToSend.length} data dari ${deviceCount} device berhasil dikirim!`);
-        console.log('Data berhasil tersimpan ke history lokal');
-        
+        showToast(`${dataToSend.length} data berhasil dikirim ke Spreadsheet!`);
       } catch (error) {
-        console.error('Detail error:', error);
-        console.error('Error name:', error.name);
-        console.error('Error message:', error.message);
-        console.error('Error stack:', error.stack);
-        
-        // Show detailed error message
-        let errorMsg = 'Gagal mengirim data: ';
-        if (error.message.includes('Failed to fetch')) {
-          errorMsg += 'Periksa koneksi internet Anda';
-        } else if (error.message.includes('NetworkError')) {
-          errorMsg += 'Koneksi internet bermasalah';
-        } else {
-          errorMsg += error.message;
-        }
-        
-        showToast(errorMsg, 'error');
+        showToast('Terjadi kesalahan saat mengirim data', 'error');
       } finally {
         btn.classList.remove('btn-loading');
         btn.disabled = false;
@@ -751,7 +648,6 @@
           return;
         }
         
-        const deviceId = getDeviceId();
         const newRecord = {
           id: Date.now().toString(),
           tanggal: tanggal,
@@ -759,8 +655,7 @@
           nama: nama,
           kesalahan_tulis: kesalahanTulis,
           lain_lain: lainLain,
-          keterangan: keterangan,
-          device_id: deviceId
+          keterangan: keterangan
         };
         
         currentData.push(newRecord);
@@ -795,5 +690,5 @@
       initApp();
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c5648035572c5f0',t:'MTc2OTY2NDAzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c56bc47b670a6d7',t:'MTc2OTY2ODc5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
