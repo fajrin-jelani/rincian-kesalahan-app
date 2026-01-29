@@ -232,7 +232,8 @@
      </div>
     </div><!-- Footer -->
     <footer class="mt-8 text-center text-slate-400 text-xs pb-4">
-     <p>v.33 - Profile &amp; Password Edition</p>
+     <p>v.34 - Multi-Device Sync Edition</p>
+     <p class="mt-1 text-slate-500">💾 Data tersinkronisasi otomatis ke Spreadsheet</p>
     </footer>
    </div>
   </div>
@@ -246,6 +247,7 @@
     const STORAGE_KEY = 'rincian_kesalahan_data';
     const PROFILE_KEY = 'rincian_app_profile';
     const PERIOD_KEY = 'rincian_app_period';
+    const SENT_DATA_KEY = 'rincian_sent_data'; // Key untuk menyimpan data yang sudah terkirim
 
     // Google Apps Script URL
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWHUDcaVhQC5zPoRl6MyNFmrkbcvuP2zZrUdmbwhioYZHGfFpZZHO2We3LBa2acnFV/exec';
@@ -370,12 +372,14 @@
       // Check file size (max 2MB)
       if (file.size > 2 * 1024 * 1024) {
         showToast('Ukuran file maksimal 2MB', 'error');
+        event.target.value = '';
         return;
       }
       
       // Check file type
       if (!file.type.startsWith('image/')) {
         showToast('File harus berupa gambar', 'error');
+        event.target.value = '';
         return;
       }
       
@@ -386,7 +390,11 @@
         img.src = e.target.result;
         img.classList.remove('hidden');
         placeholder.classList.add('hidden');
-        showToast('Foto berhasil diupload! Klik "Simpan Profil"', 'info');
+        showToast('Foto berhasil diupload! Klik "Simpan Profil" 📸', 'info');
+      };
+      reader.onerror = function() {
+        showToast('Gagal membaca file gambar', 'error');
+        event.target.value = '';
       };
       reader.readAsDataURL(file);
     }
@@ -503,8 +511,28 @@
       currentData = [];
       saveData();
       renderTable(currentData);
-      showToast('Semua data berhasil dihapus');
+      showToast('Semua data lokal berhasil dihapus (Data di spreadsheet tetap aman)');
       closeResetModal();
+    }
+
+    // Load sent data history
+    function loadSentData() {
+      try {
+        const saved = localStorage.getItem(SENT_DATA_KEY);
+        return saved ? JSON.parse(saved) : [];
+      } catch (error) {
+        console.error('Error loading sent data:', error);
+        return [];
+      }
+    }
+
+    // Save sent data history
+    function saveSentData(sentData) {
+      try {
+        localStorage.setItem(SENT_DATA_KEY, JSON.stringify(sentData));
+      } catch (error) {
+        console.error('Error saving sent data:', error);
+      }
     }
 
     // Send data to Google Sheets
@@ -523,13 +551,29 @@
         const bulan = document.getElementById('bulan-input').value || 'Januari';
         const tahun = document.getElementById('tahun-input').value || '2025';
         
-        // Sort data by date before sending
-        const sortedData = [...currentData].sort((a, b) => {
+        // Load previously sent data
+        const sentDataHistory = loadSentData();
+        
+        // Combine current data with previously sent data
+        const allDataMap = new Map();
+        
+        // Add previously sent data first
+        sentDataHistory.forEach(item => {
+          allDataMap.set(item.id, item);
+        });
+        
+        // Add/update with current data (overwrites if same ID)
+        currentData.forEach(item => {
+          allDataMap.set(item.id, item);
+        });
+        
+        // Convert map to array and sort by date
+        const allData = Array.from(allDataMap.values()).sort((a, b) => {
           return new Date(a.tanggal) - new Date(b.tanggal);
         });
         
         // Format data with row numbers starting from 1
-        const dataToSend = sortedData.map((item, index) => ({
+        const dataToSend = allData.map((item, index) => ({
           no: index + 1,
           tanggal: formatDate(item.tanggal),
           nik: item.nik || '',
@@ -557,6 +601,9 @@
           },
           body: JSON.stringify(payload)
         });
+        
+        // Save all data as sent data history
+        saveSentData(allData);
         
         showToast(`${dataToSend.length} data berhasil dikirim ke Spreadsheet!`);
       } catch (error) {
@@ -683,8 +730,12 @@
       showToast('Aplikasi siap digunakan!', 'info');
     }
 
-    // Start app
-    initApp();
+    // Start app when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c555edf80df9de3',t:'MTc2OTY1NDQ4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c55b29c70384b1b',t:'MTc2OTY1NzkxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
