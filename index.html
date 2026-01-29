@@ -232,8 +232,8 @@
      </div>
     </div><!-- Footer -->
     <footer class="mt-8 text-center text-slate-400 text-xs pb-4">
-     <p>v.35 - Smart Multi-Device Sync</p>
-     <p class="mt-1 text-slate-500">📱💻 Data dari semua device tersinkron otomatis</p>
+     <p>v.33 - Smart Multi-Device Sync</p>
+     <p class="mt-1 text-slate-500">������� Data dari semua device tersinkron otomatis</p>
     </footer>
    </div>
   </div>
@@ -249,8 +249,11 @@
     const PERIOD_KEY = 'rincian_app_period';
     const SENT_DATA_KEY = 'rincian_sent_data'; // Key untuk menyimpan data yang sudah terkirim
 
-    // Google Apps Script URL
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxvjh_lkyF0PDMQcrZl2QWNw8OAgvAzZw5mVniUDtUHq1_cSk1gPE53d_yTt8PaYDl3/exec';
+    // Google Apps Script URL - GANTI DENGAN URL DEPLOYMENT ANDA
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxKYaL420PwAgYRFTJ-l01cSVMU0PrEIzG0SQS1fnzs4WUCGzwoCbpxaXIKiNXCdc1A/exec';
+    
+    // Status koneksi
+    let connectionStatus = { connected: false, lastCheck: null };
 
     // Check if user is logged in
     function checkAuth() {
@@ -358,7 +361,7 @@
       try {
         const profile = { name, photo };
         localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
-        showToast('Profil berhasil disimpan! ✨');
+        showToast('Profil berhasil disimpan! ��');
       } catch (error) {
         console.error('Error saving profile:', error);
         showToast('Gagal menyimpan profil', 'error');
@@ -612,7 +615,11 @@
           total_devices: new Set(allData.map(item => item.device_id || deviceId)).size
         };
         
-        await fetch(APPS_SCRIPT_URL, {
+        console.log('Mengirim data:', payload);
+        console.log('Total data yang dikirim:', dataToSend.length);
+        
+        // Use no-cors mode and simpler approach
+        const response = await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
           headers: {
@@ -620,6 +627,11 @@
           },
           body: JSON.stringify(payload)
         });
+        
+        console.log('Request berhasil dikirim (no-cors mode)');
+        
+        // In no-cors mode, we can't read the response
+        // So we assume success if no error is thrown
         
         // Save all data as sent data history (this becomes the master record)
         saveSentData(allData);
@@ -633,9 +645,25 @@
         
         const deviceCount = new Set(allData.map(item => item.device_id || deviceId)).size;
         showToast(`✅ ${dataToSend.length} data dari ${deviceCount} device berhasil dikirim!`);
+        console.log('Data berhasil tersimpan ke history lokal');
+        
       } catch (error) {
-        console.error('Send error:', error);
-        showToast('Terjadi kesalahan saat mengirim data', 'error');
+        console.error('Detail error:', error);
+        console.error('Error name:', error.name);
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
+        
+        // Show detailed error message
+        let errorMsg = 'Gagal mengirim data: ';
+        if (error.message.includes('Failed to fetch')) {
+          errorMsg += 'Periksa koneksi internet Anda';
+        } else if (error.message.includes('NetworkError')) {
+          errorMsg += 'Koneksi internet bermasalah';
+        } else {
+          errorMsg += error.message;
+        }
+        
+        showToast(errorMsg, 'error');
       } finally {
         btn.classList.remove('btn-loading');
         btn.disabled = false;
@@ -767,5 +795,5 @@
       initApp();
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c55cebb1181a6d7',t:'MTc2OTY1OTA2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c5648035572c5f0',t:'MTc2OTY2NDAzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
