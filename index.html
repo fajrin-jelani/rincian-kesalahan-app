@@ -232,8 +232,8 @@
      </div>
     </div><!-- Footer -->
     <footer class="mt-8 text-center text-slate-400 text-xs pb-4">
-     <p>v.34 - Multi-Device Sync Edition</p>
-     <p class="mt-1 text-slate-500">💾 Data tersinkronisasi otomatis ke Spreadsheet</p>
+     <p>v.35 - Smart Multi-Device Sync</p>
+     <p class="mt-1 text-slate-500">📱💻 Data dari semua device tersinkron otomatis</p>
     </footer>
    </div>
   </div>
@@ -535,6 +535,16 @@
       }
     }
 
+    // Get unique device ID
+    function getDeviceId() {
+      let deviceId = localStorage.getItem('device_id');
+      if (!deviceId) {
+        deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('device_id', deviceId);
+      }
+      return deviceId;
+    }
+
     // Send data to Google Sheets
     async function sendToSheets() {
       const btn = document.getElementById('send-sheets-btn');
@@ -550,11 +560,12 @@
       try {
         const bulan = document.getElementById('bulan-input').value || 'Januari';
         const tahun = document.getElementById('tahun-input').value || '2025';
+        const deviceId = getDeviceId();
         
-        // Load previously sent data
+        // Load previously sent data from all devices
         const sentDataHistory = loadSentData();
         
-        // Combine current data with previously sent data
+        // Create a map to store all unique data by ID
         const allDataMap = new Map();
         
         // Add previously sent data first
@@ -564,7 +575,12 @@
         
         // Add/update with current data (overwrites if same ID)
         currentData.forEach(item => {
-          allDataMap.set(item.id, item);
+          // Add device ID to track which device created this data
+          const itemWithDevice = {
+            ...item,
+            device_id: item.device_id || deviceId
+          };
+          allDataMap.set(item.id, itemWithDevice);
         });
         
         // Convert map to array and sort by date
@@ -581,7 +597,8 @@
           kesalahan_tulis: item.kesalahan_tulis || '',
           lain_lain: item.lain_lain || '',
           keterangan: item.keterangan || '',
-          id: item.id
+          id: item.id,
+          device_id: item.device_id || deviceId
         }));
         
         const payload = {
@@ -590,7 +607,9 @@
             tahun: tahun,
             judul: 'Rincian Kesalahan Dalam Menulis & Kegiatan Preparasi'
           },
-          data: dataToSend
+          data: dataToSend,
+          device_id: deviceId,
+          total_devices: new Set(allData.map(item => item.device_id || deviceId)).size
         };
         
         await fetch(APPS_SCRIPT_URL, {
@@ -602,11 +621,20 @@
           body: JSON.stringify(payload)
         });
         
-        // Save all data as sent data history
+        // Save all data as sent data history (this becomes the master record)
         saveSentData(allData);
         
-        showToast(`${dataToSend.length} data berhasil dikirim ke Spreadsheet!`);
+        // Update current data with device IDs
+        currentData = currentData.map(item => ({
+          ...item,
+          device_id: item.device_id || deviceId
+        }));
+        saveData();
+        
+        const deviceCount = new Set(allData.map(item => item.device_id || deviceId)).size;
+        showToast(`✅ ${dataToSend.length} data dari ${deviceCount} device berhasil dikirim!`);
       } catch (error) {
+        console.error('Send error:', error);
         showToast('Terjadi kesalahan saat mengirim data', 'error');
       } finally {
         btn.classList.remove('btn-loading');
@@ -695,6 +723,7 @@
           return;
         }
         
+        const deviceId = getDeviceId();
         const newRecord = {
           id: Date.now().toString(),
           tanggal: tanggal,
@@ -702,7 +731,8 @@
           nama: nama,
           kesalahan_tulis: kesalahanTulis,
           lain_lain: lainLain,
-          keterangan: keterangan
+          keterangan: keterangan,
+          device_id: deviceId
         };
         
         currentData.push(newRecord);
@@ -737,5 +767,5 @@
       initApp();
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c55b29c70384b1b',t:'MTc2OTY1NzkxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c55bebee14d4b1b',t:'MTc2OTY1ODQxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
