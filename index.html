@@ -3,692 +3,1385 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rincian Kesalahan Dalam Menulis &amp; Kegiatan Preparasi</title>
+  <title>Daftar Kesalahan Preparasi</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
     body {
       box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
-    
+    :root {
+      --primary: #4b5563;
+      --primary-light: #6b7684;
+      --accent: #6b7684;
+      --accent-dark: #5a6470;
+      --success: #6b7684;
+      --warning: #8b95a5;
+      --danger: #8b95a5;
+      --light-bg: #f5f7fa;
+      --card-bg: #ffffff;
+      --border: #d1d7e0;
+      --text-primary: #2d3748;
+      --text-secondary: #5a6470;
+    }
     .custom-scrollbar::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
     }
-    
     .custom-scrollbar::-webkit-scrollbar-track {
-      background: transparent;
+      background: #f1f5f9;
+      border-radius: 3px;
     }
-    
     .custom-scrollbar::-webkit-scrollbar-thumb {
       background: #cbd5e1;
-      border-radius: 100px;
+      border-radius: 3px;
     }
-    
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
       background: #94a3b8;
     }
-    
-    .toast {
-      animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
-    }
-    
-    @keyframes slideIn {
-      from { transform: translateY(-20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
-    }
-    
-    .btn-loading {
-      position: relative;
-      color: transparent !important;
-    }
-    
-    .btn-loading::after {
-      content: '';
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      top: 50%;
-      left: 50%;
-      margin-left: -8px;
-      margin-top: -8px;
-      border: 2px solid #ffffff;
-      border-radius: 50%;
-      border-top-color: transparent;
-      animation: spin 0.8s linear infinite;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .gradient-bg {
-      background: #f8f9fa;
-      min-height: 100%;
-    }
-
-    .card-glass {
-      background: #ffffff;
-      border: 1px solid #e9ecef;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-    .input-field {
-      background: #ffffff;
-      border: 1px solid #dee2e6;
-      transition: all 0.2s ease;
-    }
-
-    .input-field:focus {
-      background: #ffffff;
-      border-color: #495057;
-      outline: none;
-      box-shadow: none;
-    }
-
-    .btn-primary {
-      background: #212529;
-      transition: all 0.2s ease;
-    }
-
-    .btn-primary:hover {
-      background: #343a40;
-    }
-
-    .btn-success {
-      background: #495057;
-    }
-
-    .btn-success:hover {
-      background: #343a40;
-    }
-
-    .btn-danger {
-      background: #6c757d;
-    }
-
-    .btn-danger:hover {
-      background: #5a6268;
-    }
   </style>
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
  </head>
- <body class="h-full gradient-bg text-white"><!-- Login Screen -->
-  <div id="login-screen" class="h-full w-full flex items-center justify-center p-4">
-   <div class="card-glass rounded-lg p-8 max-w-md w-full">
+ <body class="h-full bg-slate-50 overflow-auto" style="background-color: var(--light-bg)"><!-- Login Modal -->
+  <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+   <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md mx-4" style="background-color: var(--card-bg)">
     <div class="text-center mb-6">
-     <h1 class="text-2xl font-bold text-slate-800 mb-3">Rincian Kesalahan Dalam Menulis &amp; Kegiatan Preparasi</h1>
-     <p class="text-sm text-slate-600 mb-2">🔐 Masukkan password untuk mengakses aplikasi</p>
+     <div class="text-5xl mb-4">
+      🔐
+     </div>
+     <h1 class="text-2xl font-bold mb-2" style="color: var(--text-primary)">Masuk ke Aplikasi</h1>
+     <p style="color: var(--text-secondary)">Masukkan kode keamanan untuk melanjutkan</p>
     </div>
     <form id="login-form" class="space-y-4">
-     <div><label for="password-input" class="block text-xs font-medium text-slate-600 mb-1">Password</label> <input type="password" id="password-input" placeholder="Masukkan password" required class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none">
-     </div><button type="submit" id="login-btn" class="btn-primary w-full px-4 py-2 text-white text-sm font-medium rounded"> Masuk </button>
-     <div id="login-error" class="hidden text-red-600 text-xs text-center mt-2">
-      Password salah! Silakan coba lagi.
+     <div><input type="password" id="login-code-input" placeholder="Masukkan kode 4 digit" maxlength="4" class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:border-0 transition-all text-center tracking-widest font-bold" style="border-color: var(--border); focus:ring-color: var(--accent); font-size: 14px;" autocomplete="off">
      </div>
+     <div id="login-error" class="text-red-500 text-sm hidden text-center">
+      ��� Kode salah! Silakan coba lagi.
+     </div><button type="submit" class="w-full px-6 py-3 text-white font-bold rounded-xl transition-all shadow-md hover:shadow-lg" style="background-color: var(--accent)"> 🔓 Masuk </button>
     </form>
+    <div class="mt-6 rounded-xl p-4 text-sm" style="background-color: var(--light-bg); border: 1px solid var(--border); color: var(--accent)">
+     <p class="font-medium mb-2">💡 Petunjuk</p>
+     <p>Gunakan kode keamanan untuk masuk ke aplikasi</p>
+    </div>
    </div>
   </div>
-  <div id="app-wrapper" class="hidden h-full w-full overflow-auto custom-scrollbar">
-   <div class="min-h-full w-full p-4 md:p-6"><!-- Toast Container -->
-    <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2"></div><!-- Logout Button -->
-    <div class="fixed top-4 left-4 z-40"><button onclick="logout()" class="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1 rounded text-xs font-medium flex items-center gap-1">
-      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-      </svg> Logout </button>
-    </div><!-- Header -->
-    <header class="mb-6">
-     <div class="max-w-5xl mx-auto"><!-- Profile Section -->
-      <div class="card-glass rounded-lg p-4 mb-4 flex items-center gap-4">
-       <div class="relative">
-        <div id="profile-pic-container" class="w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center overflow-hidden cursor-pointer hover:opacity-80 transition" onclick="document.getElementById('profile-pic-input').click()"><img id="profile-pic" class="w-full h-full object-cover hidden" alt="Profile">
-         <svg id="profile-pic-placeholder" class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-         </svg>
-        </div><input type="file" id="profile-pic-input" accept="image/*" class="hidden">
+  <div class="app-wrapper h-full w-full min-h-full hidden">
+   <div class="max-w-6xl mx-auto p-4 md:p-6"><!-- Header with Settings Button -->
+    <div class="mb-6">
+     <div class="flex justify-between items-center gap-4 mb-4">
+      <h1 id="app-title" class="text-2xl md:text-3xl font-bold text-slate-800">📋 Daftar Kesalahan Preparasi</h1><button id="settings-btn" class="px-6 py-3 bg-gradient-to-r from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700 text-white font-medium rounded-2xl transition-all shadow-md hover:shadow-lg flex items-center gap-2 whitespace-nowrap"> ⚙️ Pengaturan </button>
+     </div>
+     <div class="bg-gradient-to-r from-slate-600 to-slate-700 rounded-2xl p-6 shadow-lg">
+      <p class="text-slate-200 text-center text-sm">��� Data tersimpan di Canva Sheet &amp; Google Sheets</p>
+     </div>
+    </div><!-- Form Section -->
+    <div class="bg-white rounded-2xl shadow-md p-6 mb-6">
+     <h2 class="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">✏️</span> Tambah Data Baru</h2>
+     <form id="error-form" class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"><!-- Tanggal -->
+       <div><label for="tanggal" class="block text-sm font-medium text-slate-600 mb-1">Tanggal</label> <input type="date" id="tanggal" required class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+       </div><!-- NIK Dropdown -->
+       <div><label for="nik-select" class="block text-sm font-medium text-slate-600 mb-1">NIK</label> <select id="nik-select" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"> <option value="">-- Pilih NIK --</option> </select>
        </div>
-       <div class="flex-1">
-        <div class="flex items-center gap-2 mb-1"><input type="text" id="profile-name-input" placeholder="Klik untuk mengisi nama Anda" class="text-base font-semibold text-slate-800 bg-transparent border-b border-transparent hover:border-slate-300 focus:border-slate-500 focus:outline-none px-1 py-0.5 w-full max-w-xs" value=""> <button onclick="saveProfile()" class="btn-primary px-3 py-1 text-xs rounded">Simpan Profil</button>
-        </div>
-        <p class="text-xs text-slate-500">Klik foto untuk upload gambar (max 2MB)</p>
+      </div><!-- Nama dan NIK Manual bersampingan -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4"><!-- Nama -->
+       <div><label for="nama" class="block text-sm font-medium text-slate-600 mb-1">Nama</label> <input type="text" id="nama" required placeholder="Nama otomatis atau tulis manual" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+       </div><!-- NIK Manual -->
+       <div><label for="nik-manual" class="block text-sm font-medium text-slate-600 mb-1">NIK Manual (Opsional)</label> <input type="text" id="nik-manual" placeholder="Tulis NIK manual jika diperlukan" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
        </div>
+      </div><!-- Kesalahan Tulis -->
+      <div><label for="kesalahan-tulis" class="block text-sm font-medium text-slate-600 mb-1">Kesalahan Tulis</label> <textarea id="kesalahan-tulis" rows="2" placeholder="Tuliskan keterangan kesalahan tulis..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none"></textarea>
+      </div><!-- Lain-lain -->
+      <div><label for="lain-lain" class="block text-sm font-medium text-slate-600 mb-1">Lain-lain</label> <textarea id="lain-lain" rows="2" placeholder="Tuliskan keterangan lain-lain..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none"></textarea>
+      </div><!-- Keterangan -->
+      <div><label for="keterangan" class="block text-sm font-medium text-slate-600 mb-1">Keterangan</label> <textarea id="keterangan" rows="2" placeholder="Tuliskan keterangan tambahan..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none"></textarea>
+      </div><!-- Submit Button -->
+      <div class="flex justify-end"><button type="submit" id="submit-btn" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg flex items-center gap-2"> <span>��</span> Simpan Data </button>
       </div>
-      <h1 id="app-title" class="text-xl font-semibold text-slate-800 mb-4">Rincian Kesalahan Dalam Menulis &amp; Kegiatan Preparasi</h1><!-- Period Selection -->
-      <div class="flex gap-2 items-center text-sm"><span class="text-slate-600">Periode:</span> <input type="text" id="bulan-input" placeholder="Bulan" value="" class="input-field px-3 py-1 rounded text-slate-700 text-sm focus:outline-none w-32"> <input type="text" id="tahun-input" placeholder="Tahun" value="" class="input-field px-3 py-1 rounded text-slate-700 text-sm focus:outline-none w-20">
+     </form>
+    </div><!-- Delete Employee Modal -->
+    <div id="delete-employee-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+     <div class="bg-white rounded-2xl p-6 max-w-md mx-4 shadow-2xl">
+      <h3 class="text-lg font-semibold text-slate-800 mb-2">���️ Hapus Karyawan</h3>
+      <p id="delete-employee-msg" class="text-slate-600 mb-4"></p>
+      <div class="flex gap-3 justify-start"><button type="button" id="confirm-delete-employee" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-xl transition-all"> Ya, Hapus </button> <button type="button" id="cancel-delete-employee" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-xl transition-all"> Batal </button>
       </div>
      </div>
-    </header><!-- Form Card -->
-    <div class="max-w-5xl mx-auto mb-6">
-     <div class="card-glass rounded-lg p-6">
-      <h2 class="text-base font-semibold text-slate-800 mb-4">Tambah Data Baru</h2>
-      <form id="error-form" class="space-y-4">
-       <div class="grid grid-cols-1 md:grid-cols-2 gap-4"><!-- Tanggal -->
-        <div><label for="tanggal" class="block text-xs font-medium text-slate-600 mb-1">Tanggal</label> <input type="date" id="tanggal" required class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none">
-        </div><!-- NIK & Nama Dropdown -->
-        <div><label for="employee-select" class="block text-xs font-medium text-slate-600 mb-1">Pilih Karyawan</label> <select id="employee-select" class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none cursor-pointer"> <option value="">-- Pilih Karyawan --</option> <option value="4826.01.25|Aidil">4826.01.25 - Aidil</option> <option value="3438.10.23|Budi Maulana">3438.10.23 - Budi Maulana</option> <option value="5188.06.25|Abdillah Al Husain">5188.06.25 - Abdillah Al Husain</option> <option value="3136.06.23|Raihan">3136.06.23 - Raihan</option> <option value="4321.07.24|Reksy Moningka">4321.07.24 - Reksy Moningka</option> <option value="4300.06.24|Muhammat Alamin">4300.06.24 - Muhammat Alamin</option> <option value="3243.07.23|Muhammad Fajriansyah">3243.07.23 - Muhammad Fajriansyah</option> <option value="4147.05.24|LA SURI">4147.05.24 - LA SURI</option> <option value="3210.07.23|Yugo Kawiwitan">3210.07.23 - Yugo Kawiwitan</option> <option value="4299.06.24|Bayu Prasati Wahyu">4299.06.24 - Bayu Prasati Wahyu</option> <option value="4873.02.25|Agus Maulana">4873.02.25 - Agus Maulana</option> <option value="4365.07.24|Junaidi">4365.07.24 - Junaidi</option> <option value="3209.07.23|M Irfanuddin">3209.07.23 - M Irfanuddin</option> <option value="4323.07.24|Timotius hatu">4323.07.24 - Timotius hatu</option> <option value="3244.07.23|Wahyu Hidayat">3244.07.23 - Wahyu Hidayat</option> <option value="2834.01.23|Fani Kurniawan">2834.01.23 - Fani Kurniawan</option> <option value="4367.07.24|wildan Mashobir">4367.07.24 - wildan Mashobir</option> <option value="4366.07.24|Rahmat">4366.07.24 - Rahmat</option> <option value="3908.03.24|Ahmad Muliansyah">3908.03.24 - Ahmad Muliansyah</option> <option value="2611.08.22|Rizal Wandi">2611.08.22 - Rizal Wandi</option> <option value="manual">📝 Input Manual</option> </select>
+    </div><!-- Settings Modal -->
+    <div id="settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-start justify-start z-50 p-4">
+     <div class="bg-white rounded-2xl shadow-2xl w-96 max-h-[90vh] overflow-y-auto custom-scrollbar mt-4"><!-- Header -->
+      <div class="sticky top-0 bg-gradient-to-r from-orange-500 to-orange-600 p-6 flex items-center justify-between">
+       <h2 class="text-xl font-bold text-white flex items-center gap-2"><span>⚙️</span> Pengaturan Karyawan</h2><button type="button" id="close-settings-modal" class="text-white hover:bg-orange-700 rounded-lg p-2 transition-all"> ��� </button>
+      </div><!-- Modal Content -->
+      <div class="p-6 space-y-6"><!-- Add New Employee Section -->
+       <div>
+        <h3 class="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">���</span> Tambah Karyawan Baru</h3>
+        <form id="employee-form" class="space-y-3">
+         <div><label for="new-nik" class="block text-sm font-medium text-slate-600 mb-1">NIK</label> <input type="text" id="new-nik" placeholder="Contoh: 1234.01.25" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all">
+         </div>
+         <div><label for="new-nama" class="block text-sm font-medium text-slate-600 mb-1">Nama Karyawan</label> <input type="text" id="new-nama" placeholder="Nama lengkap karyawan" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all">
+         </div><button type="submit" id="add-employee-btn" class="w-full px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"> ➕ Tambah Karyawan </button>
+        </form>
+       </div><!-- Divider -->
+       <div class="border-t border-slate-200"></div><!-- Manage Employees Section -->
+       <div>
+        <h3 class="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">📋</span> Daftar Semua Karyawan</h3><!-- Search Input -->
+        <div class="mb-4"><input type="text" id="search-employees" placeholder="🔍 Cari nama karyawan..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
         </div>
-       </div><!-- Manual Input -->
-       <div id="manual-input-container" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 p-3 bg-slate-50 rounded">
-        <div><label for="manual-nik" class="block text-xs font-medium text-slate-600 mb-1">NIK Manual</label> <input type="text" id="manual-nik" placeholder="Masukkan NIK" class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none">
+        <div id="employees-list-container" class="max-h-96 overflow-y-auto custom-scrollbar space-y-2 border border-slate-200 rounded-xl p-4 bg-slate-50">
+         <div id="employees-list" class="space-y-2"><!-- Employees akan ditampilkan di sini -->
+         </div>
+         <div id="no-employees" class="text-center py-8 text-slate-400">
+          <p class="text-sm">📭 Tidak ada karyawan</p>
+         </div>
         </div>
-        <div><label for="manual-nama" class="block text-xs font-medium text-slate-600 mb-1">Nama Manual</label> <input type="text" id="manual-nama" placeholder="Masukkan Nama" class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none">
-        </div>
-       </div><!-- Kesalahan Tulis -->
-       <div><label for="kesalahan-tulis" class="block text-xs font-medium text-slate-600 mb-1">Kesalahan Tulis</label> <textarea id="kesalahan-tulis" rows="2" placeholder="Tuliskan keterangan..." class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none resize-none"></textarea>
-       </div><!-- Lain-lain -->
-       <div><label for="lain-lain" class="block text-xs font-medium text-slate-600 mb-1">Lain-lain</label> <textarea id="lain-lain" rows="2" placeholder="Tuliskan keterangan..." class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none resize-none"></textarea>
-       </div><!-- Keterangan -->
-       <div><label for="keterangan" class="block text-xs font-medium text-slate-600 mb-1">Keterangan</label> <textarea id="keterangan" rows="2" placeholder="Keterangan tambahan..." class="input-field w-full px-3 py-2 rounded text-slate-700 text-sm focus:outline-none resize-none"></textarea>
-       </div><!-- Buttons -->
-       <div class="flex flex-wrap gap-2 pt-2"><button type="submit" id="submit-btn" class="btn-primary flex-1 min-w-[120px] px-4 py-2 text-white text-sm font-medium rounded"> Simpan Data </button> <button type="button" id="send-sheets-btn" class="btn-success flex-1 min-w-[120px] px-4 py-2 text-white text-sm font-medium rounded"> Kirim ke Spreadsheet </button> <button type="button" id="reset-btn" class="btn-danger px-4 py-2 text-white text-sm font-medium rounded"> Reset </button>
+       </div><!-- Footer -->
+       <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-700">
+        <p class="font-medium mb-2">��� Informasi</p>
+        <ul class="space-y-1 ml-4">
+         <li>✓ Semua karyawan dapat dihapus sesuai kebutuhan</li>
+         <li>✓ Karyawan bawaan (������) dan manual (✏️) sama-sama dapat dihapus</li>
+         <li>✓ Perubahan akan tersimpan secara otomatis</li>
+        </ul>
        </div>
-      </form>
-     </div>
-    </div><!-- Data Table -->
-    <div class="max-w-6xl mx-auto">
-     <div class="card-glass rounded-lg overflow-hidden">
-      <div class="p-4 border-b border-slate-200 flex items-center justify-between">
-       <h2 class="text-base font-semibold text-slate-800">Riwayat Data</h2>
-       <div id="record-count" class="text-xs text-slate-600">
-        0 Data
-       </div>
-      </div>
-      <div class="overflow-x-auto custom-scrollbar">
-       <table class="w-full min-w-[900px] text-xs">
-        <thead>
-         <tr class="bg-slate-50 border-b border-slate-200">
-          <th class="px-3 py-2 text-center font-medium text-slate-600">No</th>
-          <th class="px-3 py-2 text-center font-medium text-slate-600">Tanggal</th>
-          <th class="px-3 py-2 text-center font-medium text-slate-600">NIK</th>
-          <th class="px-3 py-2 text-left font-medium text-slate-600">Nama</th>
-          <th class="px-3 py-2 text-left font-medium text-slate-600">Kesalahan Tulis</th>
-          <th class="px-3 py-2 text-left font-medium text-slate-600">Lain-lain</th>
-          <th class="px-3 py-2 text-left font-medium text-slate-600">Keterangan</th>
-          <th class="px-3 py-2 text-center font-medium text-slate-600">Aksi</th>
-         </tr>
-        </thead>
-        <tbody id="data-table-body" class="divide-y divide-slate-100">
-         <tr id="empty-row">
-          <td colspan="8" class="px-3 py-16 text-center"><p class="text-slate-400 text-sm">Belum ada data</p></td>
-         </tr>
-        </tbody>
-       </table>
+      </div><!-- Footer Buttons -->
+      <div class="sticky bottom-0 bg-slate-50 border-t border-slate-200 p-6 flex justify-end"><button type="button" id="close-settings-btn" class="px-6 py-2.5 bg-slate-300 hover:bg-slate-400 text-slate-800 font-medium rounded-xl transition-all"> Tutup </button>
       </div>
      </div>
-    </div><!-- Reset Confirmation Modal -->
-    <div id="reset-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
-     <div class="absolute inset-0 bg-black/30" onclick="closeResetModal()"></div>
-     <div class="relative card-glass rounded-lg p-6 max-w-sm w-full">
-      <h3 class="text-base font-semibold text-slate-800 mb-2">Konfirmasi Reset</h3>
-      <p class="text-sm text-slate-600 mb-6">Hapus semua data? Tindakan ini tidak dapat dibatalkan.</p>
-      <div class="flex gap-2"><button onclick="closeResetModal()" class="flex-1 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded"> Batal </button> <button onclick="confirmReset()" id="confirm-reset-btn" class="btn-danger flex-1 px-4 py-2 text-white text-sm font-medium rounded"> Hapus </button>
+    </div><!-- Data Table Section -->
+    <div class="bg-white rounded-2xl shadow-md p-6">
+     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+      <h2 class="text-lg font-semibold text-slate-700 flex items-center gap-2"><span class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">📊</span> Data Kesalahan <span id="data-count" class="text-sm font-normal text-slate-500">(0 data)</span></h2>
+      <div class="flex gap-2 flex-wrap w-full sm:w-auto"><button type="button" id="refresh-btn" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-all text-sm flex items-center gap-2 whitespace-nowrap"> ����� Refresh Data </button> <button type="button" id="reset-btn" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-xl transition-all text-sm flex items-center gap-2 whitespace-nowrap"> 🗑️ Reset Semua Data </button> <button type="button" id="send-btn" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-xl transition-all text-sm flex items-center gap-2 whitespace-nowrap"> �� Kirim ke Google Sheets </button>
+      </div>
+     </div><!-- Security Code Modal -->
+     <div id="security-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-2xl p-6 max-w-md mx-4 shadow-2xl">
+       <h3 class="text-lg font-semibold text-slate-800 mb-2">🔐 Verifikasi Kode Keamanan</h3>
+       <p class="text-slate-600 mb-4">Masukkan kode keamanan untuk melanjutkan operasi reset/hapus data.</p><input type="password" id="security-code-input" placeholder="Masukkan kode 4 digit" maxlength="4" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-center text-2xl tracking-widest mb-4">
+       <div id="security-error" class="text-red-500 text-sm mb-4 hidden">
+        ❌ Kode salah! Silakan coba lagi.
+       </div>
+       <div class="flex gap-3 justify-end"><button type="button" id="verify-security" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-xl transition-all"> Ya, Hapus </button> <button type="button" id="cancel-security" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-xl transition-all"> Batal </button>
+       </div>
+      </div>
+     </div><!-- Confirmation Modal -->
+     <div id="confirm-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-2xl p-6 max-w-md mx-4 shadow-2xl">
+       <h3 class="text-lg font-semibold text-slate-800 mb-2">��️ Konfirmasi Reset</h3>
+       <p class="text-slate-600 mb-4">Apakah Anda yakin ingin menghapus SEMUA data kesalahan? Tindakan ini tidak dapat dibatalkan.</p>
+       <div class="flex gap-3 justify-end"><button type="button" id="cancel-reset" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-xl transition-all"> Batal </button> <button type="button" id="confirm-reset" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-xl transition-all"> Ya, Hapus Semua </button>
+       </div>
+      </div>
+     </div><!-- Delete Item Confirmation -->
+     <div id="delete-item-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-2xl p-6 max-w-md mx-4 shadow-2xl">
+       <h3 class="text-lg font-semibold text-slate-800 mb-2">����������� Hapus Data</h3>
+       <p class="text-slate-600 mb-4">Apakah Anda yakin ingin menghapus data ini?</p>
+       <div class="flex gap-3 justify-end"><button type="button" id="cancel-delete-item" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-xl transition-all"> Batal </button> <button type="button" id="confirm-delete-item" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-xl transition-all"> Ya, Hapus </button>
+       </div>
+      </div>
+     </div><!-- Send to Spreadsheet Confirmation -->
+     <div id="send-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-2xl p-6 max-w-md mx-4 shadow-2xl">
+       <h3 class="text-lg font-semibold text-slate-800 mb-2">�� Kirim ke Google Sheets</h3>
+       <p id="send-modal-msg" class="text-slate-600 mb-4"></p>
+       <div class="flex gap-3 justify-end"><button type="button" id="cancel-send" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-xl transition-all"> Batal </button> <button type="button" id="confirm-send" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-all"> Ya, Buka Google Sheets </button>
+       </div>
+      </div>
+     </div><!-- Edit Data Modal -->
+     <div id="edit-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar"><!-- Header -->
+       <div class="sticky top-0 bg-gradient-to-r from-blue-500 to-blue-600 p-6 flex items-center justify-between">
+        <h2 class="text-xl font-bold text-white flex items-center gap-2"><span>�����️</span> Edit Data Kesalahan</h2><button type="button" id="close-edit-modal" class="text-white hover:bg-blue-700 rounded-lg p-2 transition-all"> ✕ </button>
+       </div><!-- Modal Content -->
+       <div class="p-6 space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4"><!-- Tanggal -->
+         <div><label for="edit-tanggal" class="block text-sm font-medium text-slate-600 mb-1">Tanggal</label> <input type="date" id="edit-tanggal" required class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+         </div><!-- NIK -->
+         <div><label for="edit-nik" class="block text-sm font-medium text-slate-600 mb-1">NIK</label> <input type="text" id="edit-nik" placeholder="NIK" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+         </div><!-- Nama -->
+         <div><label for="edit-nama" class="block text-sm font-medium text-slate-600 mb-1">Nama</label> <input type="text" id="edit-nama" placeholder="Nama" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+         </div>
+        </div><!-- Kesalahan Tulis -->
+        <div><label for="edit-kesalahan-tulis" class="block text-sm font-medium text-slate-600 mb-1">Kesalahan Tulis</label> <textarea id="edit-kesalahan-tulis" rows="2" placeholder="Tuliskan keterangan kesalahan tulis..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none"></textarea>
+        </div><!-- Lain-lain -->
+        <div><label for="edit-lain-lain" class="block text-sm font-medium text-slate-600 mb-1">Lain-lain</label> <textarea id="edit-lain-lain" rows="2" placeholder="Tuliskan keterangan lain-lain..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none"></textarea>
+        </div><!-- Keterangan -->
+        <div><label for="edit-keterangan" class="block text-sm font-medium text-slate-600 mb-1">Keterangan</label> <textarea id="edit-keterangan" rows="2" placeholder="Tuliskan keterangan tambahan..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none"></textarea>
+        </div>
+       </div><!-- Footer Buttons -->
+       <div class="sticky bottom-0 bg-slate-50 border-t border-slate-200 p-6 flex gap-3 justify-end"><button type="button" id="cancel-edit-btn" class="px-6 py-2.5 bg-slate-300 hover:bg-slate-400 text-slate-800 font-medium rounded-xl transition-all"> Batal </button> <button type="button" id="save-edit-btn" class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-all"> 💾 Simpan Perubahan </button>
+       </div>
+      </div>
+     </div><!-- Table Container -->
+     <div class="overflow-x-auto custom-scrollbar rounded-xl border border-slate-200">
+      <table class="w-full min-w-[800px]">
+       <thead class="bg-slate-50">
+        <tr>
+         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">No</th>
+         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Tanggal</th>
+         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">NIK</th>
+         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Nama</th>
+         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Kesalahan Tulis</th>
+         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Lain-lain</th>
+         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Keterangan</th>
+         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Aksi</th>
+        </tr>
+       </thead>
+       <tbody id="data-table-body" class="divide-y divide-slate-100">
+        <tr id="empty-state">
+         <td colspan="8" class="px-4 py-12 text-center text-slate-400">
+          <div class="flex flex-col items-center gap-2"><span class="text-4xl">📭</span>
+           <p>Belum ada data kesalahan</p>
+          </div></td>
+        </tr>
+       </tbody>
+      </table>
+     </div><!-- Loading State -->
+     <div id="loading-state" class="hidden py-8 text-center">
+      <div class="inline-flex items-center gap-2 text-slate-500">
+       <svg class="animate-spin h-5 w-5" viewbox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle> <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+       </svg><span>Memproses...</span>
       </div>
      </div>
     </div><!-- Footer -->
-    <footer class="mt-8 text-center text-slate-400 text-xs pb-4">
-     <p>v.33 - Profile &amp; Password Edition</p>
+    <footer class="mt-6 text-center text-sm text-slate-400 pb-4">
+     <p>💡 Data tersimpan di Canva Sheet &amp; Google Sheets secara otomatis</p>
     </footer>
    </div>
   </div>
   <script>
-    // PASSWORD CONFIGURATION - Ganti password di sini
-    const CORRECT_PASSWORD = 'razka2426'; // ⚠️ GANTI PASSWORD DI SINI
-    const SESSION_KEY = 'rincian_app_session';
+    // Google Sheets URL
+    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycby5U1DtRKcSIQLQRhheDentnF-cHByoL8T3LMIUuwbAkdMsxGbFM0qUqrz7Kvi0Fci0/exec';
+    const SECURITY_CODE = '8686';
     
-    // App state - using localStorage for persistence
-    let currentData = [];
-    const STORAGE_KEY = 'rincian_kesalahan_data';
-    const PROFILE_KEY = 'rincian_app_profile';
-    const PERIOD_KEY = 'rincian_app_period';
-
-    // Google Apps Script URL
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWHUDcaVhQC5zPoRl6MyNFmrkbcvuP2zZrUdmbwhioYZHGfFpZZHO2We3LBa2acnFV/exec';
-
-    // Check if user is logged in
-    function checkAuth() {
-      const session = localStorage.getItem(SESSION_KEY);
-      if (session === 'logged_in') {
-        document.getElementById('login-screen').classList.add('hidden');
-        document.getElementById('app-wrapper').classList.remove('hidden');
-        return true;
-      }
-      return false;
+    // Login handler
+    const loginForm = document.getElementById('login-form');
+    const loginCodeInput = document.getElementById('login-code-input');
+    const loginError = document.getElementById('login-error');
+    const loginModal = document.getElementById('login-modal');
+    const appWrapper = document.querySelector('.app-wrapper');
+    
+    // Check if already logged in
+    function isLoggedIn() {
+      return sessionStorage.getItem('app-logged-in') === 'true';
     }
-
-    // Login function
-    function handleLogin(event) {
-      event.preventDefault();
-      
-      const passwordInput = document.getElementById('password-input');
-      const errorDiv = document.getElementById('login-error');
-      const password = passwordInput.value;
-      
-      if (password === CORRECT_PASSWORD) {
-        localStorage.setItem(SESSION_KEY, 'logged_in');
-        document.getElementById('login-screen').classList.add('hidden');
-        document.getElementById('app-wrapper').classList.remove('hidden');
-        showToast('Login berhasil! Selamat datang 👋');
-        passwordInput.value = '';
-        errorDiv.classList.add('hidden');
+    
+    // Set logged in state
+    function setLoggedIn() {
+      sessionStorage.setItem('app-logged-in', 'true');
+    }
+    
+    // Initialize login
+    function initLogin() {
+      if (isLoggedIn()) {
+        loginModal.classList.add('hidden');
+        appWrapper.classList.remove('hidden');
       } else {
-        errorDiv.classList.remove('hidden');
-        passwordInput.value = '';
-        passwordInput.focus();
+        loginCodeInput.focus();
       }
     }
-
-    // Logout function
-    function logout() {
-      localStorage.removeItem(SESSION_KEY);
-      document.getElementById('login-screen').classList.remove('hidden');
-      document.getElementById('app-wrapper').classList.add('hidden');
-      document.getElementById('password-input').value = '';
-      document.getElementById('login-error').classList.add('hidden');
-    }
-
-    // Profile functions
-    function loadProfile() {
-      try {
-        const saved = localStorage.getItem(PROFILE_KEY);
-        if (saved) {
-          const profile = JSON.parse(saved);
-          if (profile.name) {
-            document.getElementById('profile-name-input').value = profile.name;
-          }
-          if (profile.photo) {
-            const img = document.getElementById('profile-pic');
-            const placeholder = document.getElementById('profile-pic-placeholder');
-            img.src = profile.photo;
-            img.classList.remove('hidden');
-            placeholder.classList.add('hidden');
-          }
-        }
-      } catch (error) {
-        console.error('Error loading profile:', error);
-      }
-    }
-
-    // Period functions
-    function loadPeriod() {
-      try {
-        const saved = localStorage.getItem(PERIOD_KEY);
-        if (saved) {
-          const period = JSON.parse(saved);
-          if (period.bulan) {
-            document.getElementById('bulan-input').value = period.bulan;
-          }
-          if (period.tahun) {
-            document.getElementById('tahun-input').value = period.tahun;
-          }
-        }
-      } catch (error) {
-        console.error('Error loading period:', error);
-      }
-    }
-
-    function savePeriod() {
-      try {
-        const bulan = document.getElementById('bulan-input').value.trim();
-        const tahun = document.getElementById('tahun-input').value.trim();
-        const period = { bulan, tahun };
-        localStorage.setItem(PERIOD_KEY, JSON.stringify(period));
-      } catch (error) {
-        console.error('Error saving period:', error);
-      }
-    }
-
-    function saveProfile() {
-      const name = document.getElementById('profile-name-input').value.trim();
-      const img = document.getElementById('profile-pic');
-      const photo = img.classList.contains('hidden') ? '' : img.src;
+    
+    // Handle login form submission
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
       
-      if (!name && !photo) {
-        showToast('Mohon isi nama atau upload foto', 'error');
+      const code = loginCodeInput.value;
+      
+      if (code === SECURITY_CODE) {
+        loginError.classList.add('hidden');
+        setLoggedIn();
+        
+        // Show success animation
+        loginForm.style.opacity = '0.5';
+        
+        setTimeout(() => {
+          loginModal.classList.add('hidden');
+          appWrapper.classList.remove('hidden');
+          loginForm.style.opacity = '1';
+        }, 500);
+      } else {
+        loginError.classList.remove('hidden');
+        loginCodeInput.value = '';
+        loginCodeInput.focus();
+      }
+    });
+    
+    // Allow Enter key to login
+    loginCodeInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        loginForm.dispatchEvent(new Event('submit'));
+      }
+    });
+    
+    // Track uploaded data
+    let uploadedDataIds = new Set();
+    let pendingAction = null;
+
+    // Default employee list
+    const defaultEmployees = [
+      { nik: "4826.01.25", nama: "Aidil" },
+      { nik: "3438.10.23", nama: "Budi Maulana" },
+      { nik: "5188.06.25", nama: "Abdillah Al Husain" },
+      { nik: "3136.06.23", nama: "Raihan" },
+      { nik: "4321.07.24", nama: "Reksy Moningka" },
+      { nik: "4300.06.24", nama: "Muhammat Alamin" },
+      { nik: "3243.07.23", nama: "Muhammad Fajriansyah" },
+      { nik: "4147.05.24", nama: "LA SURI" },
+      { nik: "3210.07.23", nama: "Yugo Kawiwitan" },
+      { nik: "4299.06.24", nama: "Bayu Prasati Wahyu" },
+      { nik: "4873.02.25", nama: "Agus Maulana" },
+      { nik: "4365.07.24", nama: "Junaidi" },
+      { nik: "3209.07.23", nama: "M Irfanuddin" },
+      { nik: "4323.07.24", nama: "Timotius hatu" },
+      { nik: "3244.07.23", nama: "Wahyu Hidayat" },
+      { nik: "3826.02.24", nama: "Maksimus jehan" },
+      { nik: "4367.07.24", nama: "wildan Mashobir" },
+      { nik: "4366.07.24", nama: "Rahmat" },
+      { nik: "3908.03.24", nama: "Ahmad Muliansyah" },
+      { nik: "2611.08.22", nama: "Rizal Wandi" },
+      { nik: "2834.01.23", nama: "Fani Kurniawan" }
+    ];
+
+    // App state
+    let employees = [...defaultEmployees];
+    let deletedDefaultEmployees = [];
+    let errorData = [];
+    let itemToDelete = null;
+    let employeeToDelete = null;
+
+    // Default config
+    const defaultConfig = {
+      app_title: "�� Daftar Kesalahan Preparasi"
+    };
+
+    // Load deleted default employees from localStorage
+    function loadDeletedEmployees() {
+      try {
+        const saved = localStorage.getItem('deleted_default_employees');
+        if (saved) {
+          return JSON.parse(saved);
+        }
+      } catch (e) {
+        console.error('Failed to load deleted employees');
+      }
+      return [];
+    }
+
+    // Load deleted default employees from localStorage
+    function loadDeletedEmployees() {
+      try {
+        const saved = localStorage.getItem('deleted_default_employees');
+        if (saved) {
+          return JSON.parse(saved);
+        }
+      } catch (e) {
+        console.error('Failed to load deleted employees');
+      }
+      return [];
+    }
+
+    // Save deleted default employees to localStorage
+    function saveDeletedEmployees(deleted) {
+      localStorage.setItem('deleted_default_employees', JSON.stringify(deleted));
+    }
+
+    // Add search event listener
+    document.getElementById('search-employees').addEventListener('input', function(e) {
+      const searchTerm = e.target.value;
+      filterAndRenderEmployees(searchTerm);
+    });
+
+    // Filter and render employees list based on search
+    function filterAndRenderEmployees(searchTerm = '') {
+      const listContainer = document.getElementById('employees-list');
+      const noEmployees = document.getElementById('no-employees');
+      
+      if (employees.length === 0) {
+        listContainer.innerHTML = '';
+        noEmployees.classList.remove('hidden');
+        noEmployees.innerHTML = '<p class="text-sm">📭 Tidak ada karyawan</p>';
         return;
       }
       
-      try {
-        const profile = { name, photo };
-        localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
-        showToast('Profil berhasil disimpan! ✨');
-      } catch (error) {
-        console.error('Error saving profile:', error);
-        showToast('Gagal menyimpan profil', 'error');
-      }
-    }
-
-    function handleProfilePicUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+      // Sort alphabetically A-Z by nama
+      let sortedEmployees = [...employees].sort((a, b) => 
+        a.nama.localeCompare(b.nama, 'id', { sensitivity: 'base' })
+      );
       
-      // Check file size (max 2MB)
-      if (file.size > 2 * 1024 * 1024) {
-        showToast('Ukuran file maksimal 2MB', 'error');
+      // Filter berdasarkan search term
+      if (searchTerm.trim()) {
+        const lowerSearch = searchTerm.toLowerCase().trim();
+        sortedEmployees = sortedEmployees.filter(emp => 
+          emp.nama.toLowerCase().includes(lowerSearch) || 
+          emp.nik.toLowerCase().includes(lowerSearch)
+        );
+      }
+      
+      if (sortedEmployees.length === 0) {
+        listContainer.innerHTML = '';
+        noEmployees.classList.remove('hidden');
+        noEmployees.innerHTML = `<p class="text-sm">🔍 Tidak ada karyawan dengan nama "${searchTerm}"</p>`;
         return;
       }
       
-      // Check file type
-      if (!file.type.startsWith('image/')) {
-        showToast('File harus berupa gambar', 'error');
+      noEmployees.classList.add('hidden');
+      
+      listContainer.innerHTML = sortedEmployees.map(emp => {
+        const isDefault = defaultEmployees.find(def => def.nik === emp.nik);
+        return `
+          <div class="flex items-center justify-between p-3 bg-white rounded-lg hover:bg-slate-50 transition-colors border border-slate-200">
+            <div class="flex-1">
+              <p class="font-medium text-slate-700">${emp.nama}</p>
+              <p class="text-sm text-slate-500">${emp.nik}</p>
+              ${isDefault ? '<p class="text-xs text-blue-600 font-medium mt-1">📌 Karyawan Bawaan</p>' : '<p class="text-xs text-orange-600 font-medium mt-1">��️ Karyawan Manual</p>'}
+            </div>
+            <button type="button" class="delete-employee-btn px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 text-xs font-medium rounded-lg transition-all" data-nik="${emp.nik}">
+              🗑️
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render all employees list (without search)
+    function renderEmployeesList() {
+      filterAndRenderEmployees();
+    }
+    function populateNikDropdown() {
+      const select = document.getElementById('nik-select');
+      const currentValue = select.value;
+      
+      select.innerHTML = '<option value="">-- Pilih NIK --</option><option value="manual">✏��� Tulis Manual</option>';
+      
+      // Urutkan employees berdasarkan nama A-Z
+      const sortedEmployees = [...employees].sort((a, b) => 
+        a.nama.localeCompare(b.nama, 'id', { sensitivity: 'base' })
+      );
+      
+      sortedEmployees.forEach(emp => {
+        const option = document.createElement('option');
+        option.value = emp.nik;
+        option.textContent = `${emp.nik} - ${emp.nama}`;
+        select.appendChild(option);
+      });
+      
+      // Restore nilai sebelumnya jika masih ada
+      if (currentValue && [...select.options].find(o => o.value === currentValue)) {
+        select.value = currentValue;
+      }
+    }
+
+    // Render all employees list
+    function renderEmployeesList() {
+      const listContainer = document.getElementById('employees-list');
+      const noEmployees = document.getElementById('no-employees');
+      
+      if (employees.length === 0) {
+        listContainer.innerHTML = '';
+        noEmployees.classList.remove('hidden');
         return;
       }
       
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = document.getElementById('profile-pic');
-        const placeholder = document.getElementById('profile-pic-placeholder');
-        img.src = e.target.result;
-        img.classList.remove('hidden');
-        placeholder.classList.add('hidden');
-        showToast('Foto berhasil diupload! Klik "Simpan Profil"', 'info');
-      };
-      reader.readAsDataURL(file);
+      noEmployees.classList.add('hidden');
+      
+      // Sort alphabetically A-Z by nama
+      const sortedEmployees = [...employees].sort((a, b) => 
+        a.nama.localeCompare(b.nama, 'id', { sensitivity: 'base' })
+      );
+      
+      listContainer.innerHTML = sortedEmployees.map(emp => {
+        const isDefault = defaultEmployees.find(def => def.nik === emp.nik);
+        return `
+          <div class="flex items-center justify-between p-3 bg-white rounded-lg hover:bg-slate-50 transition-colors border border-slate-200">
+            <div class="flex-1">
+              <p class="font-medium text-slate-700">${emp.nama}</p>
+              <p class="text-sm text-slate-500">${emp.nik}</p>
+              ${isDefault ? '<p class="text-xs text-blue-600 font-medium mt-1">������ Karyawan Bawaan</p>' : '<p class="text-xs text-orange-600 font-medium mt-1">✏️ Karyawan Manual</p>'}
+            </div>
+            <button type="button" class="delete-employee-btn px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 text-xs font-medium rounded-lg transition-all" data-nik="${emp.nik}">
+              🗑���
+            </button>
+          </div>
+        `;
+      }).join('');
     }
 
-    // Load data from localStorage
-    function loadData() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-          currentData = JSON.parse(saved);
-          renderTable(currentData);
+    // Handle NIK selection
+    document.getElementById('nik-select').addEventListener('change', function() {
+      const namaInput = document.getElementById('nama');
+      if (this.value === 'manual') {
+        namaInput.value = '';
+        namaInput.placeholder = 'Tulis nama manual';
+        namaInput.focus();
+      } else if (this.value) {
+        const emp = employees.find(e => e.nik === this.value);
+        if (emp) {
+          namaInput.value = emp.nama;
         }
-      } catch (error) {
-        console.error('Error loading data:', error);
+      } else {
+        namaInput.value = '';
+        namaInput.placeholder = 'Nama otomatis atau tulis manual';
       }
-    }
+    });
 
-    // Save data to localStorage
-    function saveData() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
-      } catch (error) {
-        console.error('Error saving data:', error);
-      }
-    }
 
-    // Toast notification
-    function showToast(message, type = 'success') {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      
-      const bgColor = type === 'success' ? '#212529' : type === 'error' ? '#6c757d' : '#495057';
-      
-      toast.className = `toast text-white px-4 py-2 rounded text-sm shadow-lg`;
-      toast.style.backgroundColor = bgColor;
-      toast.textContent = message;
-      
-      container.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
-    }
 
     // Format date for display
     function formatDate(dateStr) {
       if (!dateStr) return '-';
       const date = new Date(dateStr);
-      return date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      return date.toLocaleDateString('id-ID', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      });
     }
 
-    // Render data table
-    function renderTable(data) {
+    // Get sorted data by date (earliest first)
+    function getSortedData(data = errorData) {
+      return [...data].sort((a, b) => {
+        const dateA = new Date(a.tanggal);
+        const dateB = new Date(b.tanggal);
+        return dateA - dateB;
+      });
+    }
+
+    // Render table
+    function renderTable() {
       const tbody = document.getElementById('data-table-body');
-      const countEl = document.getElementById('record-count');
+      const emptyState = document.getElementById('empty-state');
+      const countEl = document.getElementById('data-count');
       
-      countEl.textContent = `${data.length} Data`;
+      const sortedData = getSortedData();
       
-      if (data.length === 0) {
-        tbody.innerHTML = `
-          <tr id="empty-row">
-            <td colspan="8" class="px-3 py-16 text-center">
-              <p class="text-slate-400 text-sm">Belum ada data</p>
-            </td>
-          </tr>
-        `;
+      countEl.textContent = `(${sortedData.length} data)`;
+      
+      if (sortedData.length === 0) {
+        tbody.innerHTML = '';
+        tbody.appendChild(createEmptyState());
         return;
       }
-
-      // Sort by date ascending (oldest first)
-      const sortedData = [...data].sort((a, b) => {
-        return new Date(a.tanggal) - new Date(b.tanggal);
+      
+      const existingRows = new Map();
+      tbody.querySelectorAll('tr[data-id]').forEach(row => {
+        existingRows.set(row.dataset.id, row);
       });
       
-      tbody.innerHTML = sortedData.map((item, index) => `
-        <tr class="hover:bg-slate-50" data-id="${item.id}">
-          <td class="px-3 py-2 text-slate-600 text-center">${index + 1}</td>
-          <td class="px-3 py-2 text-slate-800 text-center">${formatDate(item.tanggal)}</td>
-          <td class="px-3 py-2 text-slate-600 text-center font-mono">${item.nik || '-'}</td>
-          <td class="px-3 py-2 text-slate-800 text-center">${item.nama || '-'}</td>
-          <td class="px-3 py-2 text-slate-600 text-left max-w-xs">${item.kesalahan_tulis || '-'}</td>
-          <td class="px-3 py-2 text-slate-600 text-left max-w-xs">${item.lain_lain || '-'}</td>
-          <td class="px-3 py-2 text-slate-600 text-left max-w-xs">${item.keterangan || '-'}</td>
-          <td class="px-3 py-2 text-center">
-            <button onclick="deleteItem('${item.id}')" class="p-1 text-slate-400 hover:text-red-600" title="Hapus">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-              </svg>
-            </button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    // Delete single item
-    function deleteItem(id) {
-      currentData = currentData.filter(item => item.id !== id);
-      saveData();
-      renderTable(currentData);
-      showToast('Data berhasil dihapus');
-    }
-
-    // Reset modal functions
-    function openResetModal() {
-      if (currentData.length === 0) {
-        showToast('Tidak ada data untuk dihapus', 'error');
-        return;
-      }
-      document.getElementById('reset-modal').classList.remove('hidden');
-    }
-
-    function closeResetModal() {
-      document.getElementById('reset-modal').classList.add('hidden');
-    }
-
-    function confirmReset() {
-      currentData = [];
-      saveData();
-      renderTable(currentData);
-      showToast('Semua data berhasil dihapus');
-      closeResetModal();
-    }
-
-    // Send data to Google Sheets
-    async function sendToSheets() {
-      const btn = document.getElementById('send-sheets-btn');
+      const empty = tbody.querySelector('#empty-state');
+      if (empty) empty.remove();
       
-      if (currentData.length === 0) {
-        showToast('Tidak ada data untuk dikirim', 'error');
-        return;
-      }
-      
-      btn.classList.add('btn-loading');
-      btn.disabled = true;
-      
-      try {
-        const bulan = document.getElementById('bulan-input').value || 'Januari';
-        const tahun = document.getElementById('tahun-input').value || '2026';
+      sortedData.forEach((item, index) => {
+        const existingRow = existingRows.get(item.__backendId);
         
-        // Sort data by date before sending
-        const sortedData = [...currentData].sort((a, b) => {
-          return new Date(a.tanggal) - new Date(b.tanggal);
+        if (existingRow) {
+          updateRow(existingRow, item, index);
+          existingRows.delete(item.__backendId);
+        } else {
+          const newRow = createRow(item, index);
+          tbody.appendChild(newRow);
+        }
+      });
+      
+      existingRows.forEach(row => row.remove());
+      
+      sortedData.forEach((item, index) => {
+        const row = tbody.querySelector(`tr[data-id="${item.__backendId}"]`);
+        if (row) {
+          row.querySelector('td:first-child').textContent = index + 1;
+          tbody.appendChild(row);
+        }
+      });
+    }
+
+    function createEmptyState() {
+      const tr = document.createElement('tr');
+      tr.id = 'empty-state';
+      tr.innerHTML = `
+        <td colspan="8" class="px-4 py-12 text-center text-slate-400">
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-4xl">📭</span>
+            <p>Belum ada data kesalahan</p>
+          </div>
+        </td>
+      `;
+      return tr;
+    }
+
+    function createRow(item, index) {
+      const tr = document.createElement('tr');
+      tr.dataset.id = item.__backendId;
+      tr.className = 'hover:bg-slate-50 transition-colors';
+      tr.innerHTML = `
+        <td class="px-4 py-3 text-sm text-slate-600">${index + 1}</td>
+        <td class="px-4 py-3 text-sm text-slate-700 font-medium">${formatDate(item.tanggal)}</td>
+        <td class="px-4 py-3 text-sm text-slate-600">${item.nik || '-'}</td>
+        <td class="px-4 py-3 text-sm text-slate-700 font-medium">${item.nama || '-'}</td>
+        <td class="px-4 py-3 text-sm text-slate-600 max-w-[150px] truncate" title="${item.kesalahan_tulis || ''}">${item.kesalahan_tulis || '-'}</td>
+        <td class="px-4 py-3 text-sm text-slate-600 max-w-[150px] truncate" title="${item.lain_lain || ''}">${item.lain_lain || '-'}</td>
+        <td class="px-4 py-3 text-sm text-slate-600 max-w-[150px] truncate" title="${item.keterangan || ''}">${item.keterangan || '-'}</td>
+        <td class="px-4 py-3 flex gap-2">
+          <button type="button" class="edit-btn px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-600 text-xs font-medium rounded-lg transition-all" data-id="${item.__backendId}">
+            ✏️ Edit
+          </button>
+          <button type="button" class="delete-btn px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 text-xs font-medium rounded-lg transition-all" data-id="${item.__backendId}">
+            🗑️ Hapus
+          </button>
+        </td>
+      `;
+      return tr;
+    }
+
+    function updateRow(row, item, index) {
+      const cells = row.querySelectorAll('td');
+      cells[0].textContent = index + 1;
+      cells[1].textContent = formatDate(item.tanggal);
+      cells[2].textContent = item.nik || '-';
+      cells[3].textContent = item.nama || '-';
+      cells[4].textContent = item.kesalahan_tulis || '-';
+      cells[4].title = item.kesalahan_tulis || '';
+      cells[5].textContent = item.lain_lain || '-';
+      cells[5].title = item.lain_lain || '';
+      cells[6].textContent = item.keterangan || '-';
+      cells[6].title = item.keterangan || '';
+    }
+
+    // Form submission
+    document.getElementById('error-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const nikSelect = document.getElementById('nik-select');
+      const nikManual = document.getElementById('nik-manual').value.trim();
+      
+      // Gunakan NIK manual jika diisi, jika tidak gunakan dari dropdown
+      let nik = nikManual || (nikSelect.value === 'manual' ? '' : nikSelect.value);
+      
+      const newRecord = {
+        id: Date.now().toString(),
+        tanggal: document.getElementById('tanggal').value,
+        nik: nik,
+        nama: document.getElementById('nama').value,
+        kesalahan_tulis: document.getElementById('kesalahan-tulis').value,
+        lain_lain: document.getElementById('lain-lain').value,
+        keterangan: document.getElementById('keterangan').value,
+        created_at: new Date().toISOString()
+      };
+      
+      if (errorData.length >= 999) {
+        showToast('Batas maksimum 999 data tercapai. Hapus beberapa data terlebih dahulu.', 'error');
+        return;
+      }
+      
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="animate-spin">💫</span> Menyimpan...';
+      
+      const result = await window.dataSdk.create(newRecord);
+      
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>💾</span> Simpan Data';
+      
+      if (result.isOk) {
+        this.reset();
+        document.getElementById('tanggal').valueAsDate = new Date();
+        document.getElementById('nik-manual').value = '';
+        showToast('��� Data berhasil disimpan!', 'success');
+      } else {
+        showToast('Gagal menyimpan data. Silakan coba lagi.', 'error');
+      }
+    });
+
+    // Save custom employees to localStorage
+    function saveCustomEmployees() {
+      const customEmps = employees.filter(emp => 
+        !defaultEmployees.find(def => def.nik === emp.nik)
+      );
+      localStorage.setItem('custom_employees', JSON.stringify(customEmps));
+    }
+
+    // Load custom employees from localStorage
+    function loadCustomEmployees() {
+      try {
+        const saved = localStorage.getItem('custom_employees');
+        if (saved) {
+          return JSON.parse(saved);
+        }
+      } catch (e) {
+        console.error('Failed to load custom employees');
+      }
+      return [];
+    }
+
+    // Add employee form
+    document.getElementById('employee-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const newNik = document.getElementById('new-nik').value.trim();
+      const newNama = document.getElementById('new-nama').value.trim();
+      
+      if (!newNik || !newNama) {
+        showToast('NIK dan Nama harus diisi!', 'error');
+        return;
+      }
+      
+      // Cek apakah sudah ada
+      const exists = employees.find(emp => emp.nik === newNik);
+      if (exists) {
+        showToast('NIK ini sudah ada!', 'error');
+        return;
+      }
+      
+      const addBtn = document.getElementById('add-employee-btn');
+      addBtn.disabled = true;
+      addBtn.innerHTML = '<span class="animate-spin">💫</span> Menambah...';
+      
+      // Tambah ke memory langsung (tanpa simpan ke Canva Sheet)
+      employees.push({ nik: newNik, nama: newNama });
+      saveCustomEmployees();
+      
+      // Tunggu sebentar agar perubahan terlihat
+      setTimeout(() => {
+        document.getElementById('new-nik').value = '';
+        document.getElementById('new-nama').value = '';
+        document.getElementById('new-nik').focus();
+        
+        // Update UI
+        populateNikDropdown();
+        renderEmployeesList();
+        
+        addBtn.disabled = false;
+        addBtn.innerHTML = '➕ Tambah Karyawan';
+        
+        showToast(`✅ Karyawan ${newNama} berhasil ditambahkan!`, 'success');
+      }, 100);
+    });
+
+    // Settings button event listeners
+    document.getElementById('settings-btn').addEventListener('click', function() {
+      document.getElementById('settings-modal').classList.remove('hidden');
+    });
+
+    document.getElementById('close-settings-modal').addEventListener('click', function() {
+      document.getElementById('settings-modal').classList.add('hidden');
+    });
+
+    document.getElementById('close-settings-btn').addEventListener('click', function() {
+      document.getElementById('settings-modal').classList.add('hidden');
+    });
+
+    document.getElementById('settings-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.add('hidden');
+      }
+    });
+
+    // Delete employee event listener dengan event delegation
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('delete-employee-btn')) {
+        const nik = e.target.dataset.nik;
+        employeeToDelete = employees.find(emp => emp.nik === nik);
+        if (employeeToDelete) {
+          document.getElementById('delete-employee-msg').textContent = 
+            `Hapus karyawan "${employeeToDelete.nama}" (${employeeToDelete.nik})?`;
+          document.getElementById('delete-employee-modal').classList.remove('hidden');
+        }
+      }
+    });
+
+    document.getElementById('cancel-delete-employee').addEventListener('click', function() {
+      document.getElementById('delete-employee-modal').classList.add('hidden');
+      employeeToDelete = null;
+    });
+
+    document.getElementById('confirm-delete-employee').addEventListener('click', function() {
+      if (!employeeToDelete) return;
+      
+      showToast(`������������ Menghapus karyawan ${employeeToDelete.nama}...`, 'success');
+      
+      employees = employees.filter(emp => emp.nik !== employeeToDelete.nik);
+      
+      const isDefault = defaultEmployees.find(def => def.nik === employeeToDelete.nik);
+      if (isDefault) {
+        deletedDefaultEmployees.push(employeeToDelete.nik);
+        saveDeletedEmployees(deletedDefaultEmployees);
+      }
+      
+      saveCustomEmployees();
+      populateNikDropdown();
+      renderEmployeesList();
+      
+      document.getElementById('delete-employee-modal').classList.add('hidden');
+      employeeToDelete = null;
+    });
+
+    // Edit and Delete single item
+    let itemToEdit = null;
+    document.getElementById('data-table-body').addEventListener('click', function(e) {
+      if (e.target.classList.contains('edit-btn')) {
+        const id = e.target.dataset.id;
+        itemToEdit = errorData.find(item => item.__backendId === id);
+        if (itemToEdit) {
+          pendingAction = 'edit-item';
+          document.getElementById('security-code-input').value = '';
+          document.getElementById('security-error').classList.add('hidden');
+          document.getElementById('security-modal').classList.remove('hidden');
+        }
+      } else if (e.target.classList.contains('delete-btn')) {
+        const id = e.target.dataset.id;
+        itemToDelete = errorData.find(item => item.__backendId === id);
+        if (itemToDelete) {
+          pendingAction = 'delete-item';
+          document.getElementById('security-code-input').value = '';
+          document.getElementById('security-error').classList.add('hidden');
+          document.getElementById('security-modal').classList.remove('hidden');
+        }
+      }
+    });
+
+    document.getElementById('cancel-delete-item').addEventListener('click', function() {
+      document.getElementById('delete-item-modal').classList.add('hidden');
+      itemToDelete = null;
+    });
+
+    // Edit modal handlers
+    document.getElementById('close-edit-modal').addEventListener('click', function() {
+      document.getElementById('edit-modal').classList.add('hidden');
+      itemToEdit = null;
+    });
+
+    document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+      document.getElementById('edit-modal').classList.add('hidden');
+      itemToEdit = null;
+    });
+
+    document.getElementById('edit-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.add('hidden');
+        itemToEdit = null;
+      }
+    });
+
+    document.getElementById('confirm-delete-item').addEventListener('click', async function() {
+      if (!itemToDelete) return;
+      
+      this.disabled = true;
+      this.textContent = 'Menghapus...';
+      
+      // Delete dari Canva Sheet
+      const result = await window.dataSdk.delete(itemToDelete);
+      
+      if (result.isOk) {
+        uploadedDataIds.delete(itemToDelete.__backendId);
+        
+        // Otomatis hapus dari Google Sheets juga
+        try {
+          await deleteFromGoogleSheets([{
+            backendId: itemToDelete.__backendId,
+            tanggal: itemToDelete.tanggal,
+            nik: itemToDelete.nik || '-',
+            nama: itemToDelete.nama || '-',
+            kesalahan_tulis: itemToDelete.kesalahan_tulis || '-',
+            lain_lain: itemToDelete.lain_lain || '-',
+            keterangan: itemToDelete.keterangan || '-'
+          }]);
+          showToast('��� Data dihapus dari Canva Sheet & Google Sheets!', 'success');
+        } catch (error) {
+          showToast('✅ Data dihapus dari Canva Sheet (Google Sheets error)', 'success');
+        }
+      } else {
+        showToast('❌ Gagal menghapus data.', 'error');
+      }
+      
+      this.disabled = false;
+      this.textContent = 'Ya, Hapus';
+      document.getElementById('delete-item-modal').classList.add('hidden');
+      itemToDelete = null;
+    });
+
+    // Save edit handler
+    document.getElementById('save-edit-btn').addEventListener('click', async function() {
+      if (!itemToEdit) return;
+      
+      const updatedRecord = {
+        ...itemToEdit,
+        tanggal: document.getElementById('edit-tanggal').value,
+        nik: document.getElementById('edit-nik').value,
+        nama: document.getElementById('edit-nama').value,
+        kesalahan_tulis: document.getElementById('edit-kesalahan-tulis').value,
+        lain_lain: document.getElementById('edit-lain-lain').value,
+        keterangan: document.getElementById('edit-keterangan').value
+      };
+      
+      this.disabled = true;
+      this.innerHTML = '<span class="animate-spin">💫</span> Menyimpan...';
+      
+      const result = await window.dataSdk.update(updatedRecord);
+      
+      this.disabled = false;
+      this.innerHTML = '💾 Simpan Perubahan';
+      document.getElementById('edit-modal').classList.add('hidden');
+      
+      if (result.isOk) {
+        showToast('Data berhasil diperbarui!', 'success');
+      } else {
+        showToast('Gagal memperbarui data.', 'error');
+      }
+      
+      itemToEdit = null;
+    });
+
+    document.getElementById('cancel-reset').addEventListener('click', function() {
+      document.getElementById('confirm-modal').classList.add('hidden');
+    });
+
+    document.getElementById('confirm-reset').addEventListener('click', async function() {
+      this.disabled = true;
+      this.textContent = 'Menghapus...';
+      
+      for (const item of errorData) {
+        await window.dataSdk.delete(item);
+      }
+      
+      // Delete semua dari Google Sheets
+      deleteAllFromGoogleSheets();
+      uploadedDataIds.clear();
+      
+      this.disabled = false;
+      this.textContent = 'Ya, Hapus Semua';
+      document.getElementById('confirm-modal').classList.add('hidden');
+      
+      showToast('Semua data berhasil dihapus dari Canva & Google Sheets!', 'success');
+    });
+
+    // Security Code Handlers
+    document.getElementById('cancel-security').addEventListener('click', function() {
+      document.getElementById('security-modal').classList.add('hidden');
+      pendingAction = null;
+      itemToDelete = null;
+    });
+
+    document.getElementById('verify-security').addEventListener('click', function() {
+      const code = document.getElementById('security-code-input').value;
+      const errorEl = document.getElementById('security-error');
+      
+      if (code === SECURITY_CODE) {
+        errorEl.classList.add('hidden');
+        document.getElementById('security-modal').classList.add('hidden');
+        
+        // Proceed with pending action
+        if (pendingAction === 'reset') {
+          document.getElementById('confirm-modal').classList.remove('hidden');
+        } else if (pendingAction === 'delete-item') {
+          document.getElementById('delete-item-modal').classList.remove('hidden');
+        } else if (pendingAction === 'edit-item') {
+          // Open edit modal with data
+          document.getElementById('edit-tanggal').value = itemToEdit.tanggal;
+          document.getElementById('edit-nik').value = itemToEdit.nik || '';
+          document.getElementById('edit-nama').value = itemToEdit.nama || '';
+          document.getElementById('edit-kesalahan-tulis').value = itemToEdit.kesalahan_tulis || '';
+          document.getElementById('edit-lain-lain').value = itemToEdit.lain_lain || '';
+          document.getElementById('edit-keterangan').value = itemToEdit.keterangan || '';
+          document.getElementById('edit-modal').classList.remove('hidden');
+        }
+        
+        pendingAction = null;
+      } else {
+        errorEl.classList.remove('hidden');
+        document.getElementById('security-code-input').value = '';
+        document.getElementById('security-code-input').focus();
+      }
+    });
+
+    // Allow Enter key to verify
+    document.getElementById('security-code-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('verify-security').click();
+      }
+    });
+
+    // Helper functions untuk Google Sheets
+    async function uploadToGoogleSheets(dataArray) {
+      try {
+        // Gunakan semua data, tidak perlu filter
+        if (dataArray.length === 0) {
+          showToast('Tidak ada data untuk dikirim.', 'error');
+          return;
+        }
+        
+        // Sort by date ascending (earliest first) dan add row numbers dengan nomor urut yang benar
+        const sortedData = getSortedData(dataArray).map((item, index) => ({
+          no: index + 1,
+          backendId: item.__backendId,
+          tanggal: item.tanggal,
+          nik: item.nik || '-',
+          nama: item.nama || '-',
+          kesalahan_tulis: item.kesalahan_tulis || '-',
+          lain_lain: item.lain_lain || '-',
+          keterangan: item.keterangan || '-'
+        }));
+
+        const payload = {
+          action: 'create',
+          data: sortedData
+        };
+
+        console.log('���� Mengirim ke Google Sheets:', payload);
+
+        const response = await fetch(GOOGLE_SHEETS_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          mode: 'no-cors'
+        });
+
+        console.log('✅ Response status:', response.status);
+        
+        // Tandai data yang dikirim
+        dataArray.forEach(item => {
+          uploadedDataIds.add(item.__backendId);
         });
         
-        // Format data with row numbers starting from 1
-        const dataToSend = sortedData.map((item, index) => ({
-          no: index + 1,
-          tanggal: formatDate(item.tanggal),
-          nik: item.nik || '',
-          nama: item.nama || '',
-          kesalahan_tulis: item.kesalahan_tulis || '',
-          lain_lain: item.lain_lain || '',
-          keterangan: item.keterangan || '',
-          id: item.id
-        }));
+        return true;
+      } catch (error) {
+        console.error('❌ Error uploading to Google Sheets:', error);
+        throw error;
+      }
+    }
+
+    async function deleteFromGoogleSheets(dataArray) {
+      try {
+        // Log data yang akan dihapus
+        console.log('📌 Data to delete from Google Sheets:');
+        dataArray.forEach((item, idx) => {
+          console.log(`Item ${idx + 1}:`, {
+            backendId: item.backendId || item.__backendId,
+            tanggal: item.tanggal,
+            nik: item.nik,
+            nama: item.nama,
+            kesalahan_tulis: item.kesalahan_tulis,
+            lain_lain: item.lain_lain,
+            keterangan: item.keterangan
+          });
+        });
         
+        // Kirim data LENGKAP untuk pencocokan di Google Sheets
         const payload = {
-          header: {
-            bulan: bulan,
-            tahun: tahun,
-            judul: 'Rincian Kesalahan Dalam Menulis & Kegiatan Preparasi'
-          },
-          data: dataToSend
+          action: 'delete',
+          data: dataArray.map(item => ({
+            backendId: item.backendId || item.__backendId,
+            tanggal: item.tanggal,
+            nik: item.nik || '-',
+            nama: item.nama || '-',
+            kesalahan_tulis: item.kesalahan_tulis || '-',
+            lain_lain: item.lain_lain || '-',
+            keterangan: item.keterangan || '-'
+          }))
         };
+
+        console.log('������� Full delete payload being sent:', JSON.stringify(payload, null, 2));
         
-        await fetch(APPS_SCRIPT_URL, {
+        const response = await fetch(GOOGLE_SHEETS_URL, {
           method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/json',
-          },
           body: JSON.stringify(payload)
         });
+
+        const result = await response.text();
+        console.log('✅ Delete response from Google Sheets:', result);
         
-        showToast(`${dataToSend.length} data berhasil dikirim ke Spreadsheet!`);
+        // Hapus dari tracking setelah berhasil
+        dataArray.forEach(item => {
+          uploadedDataIds.delete(item.backendId || item.__backendId);
+        });
       } catch (error) {
-        showToast('Terjadi kesalahan saat mengirim data', 'error');
-      } finally {
-        btn.classList.remove('btn-loading');
-        btn.disabled = false;
+        console.error('❌ Error deleting from Google Sheets:', error);
+        showToast('Gagal menghapus dari Google Sheets, tapi data Canva berhasil dihapus.', 'error');
       }
     }
 
-    // Initialize app
-    function initApp() {
-      // Check authentication first
-      if (!checkAuth()) {
-        // Setup login form
-        document.getElementById('login-form').addEventListener('submit', handleLogin);
+    async function deleteAllFromGoogleSheets() {
+      try {
+        const payload = {
+          action: 'deleteAll'
+        };
+
+        const response = await fetch(GOOGLE_SHEETS_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.text();
+        console.log('Delete all result:', result);
+      } catch (error) {
+        console.error('Error deleting all from Google Sheets:', error);
+      }
+    }
+
+    // Refresh data dari Google Sheets
+    async function refreshDataFromGoogleSheets() {
+      try {
+        const refreshBtn = document.getElementById('refresh-btn');
+        refreshBtn.disabled = true;
+        refreshBtn.innerHTML = '<span class="animate-spin">���</span> Memproses...';
+
+        console.log('�� Mulai refresh data dari Google Sheets...');
+
+        const payload = {
+          action: 'read'
+        };
+
+        const response = await fetch(GOOGLE_SHEETS_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          mode: 'no-cors'
+        });
+
+        console.log('📡 Response status:', response.status);
+        console.log('📡 Response type:', response.type);
+
+        // Dengan mode: no-cors, kita tidak bisa read response body
+        // Jadi kita asumsikan berhasil dan buat toast
+        showToast('✅ Permintaan refresh dikirim ke Google Sheets. Data akan diperbarui.', 'success');
+        
+        refreshBtn.disabled = false;
+        refreshBtn.innerHTML = '<span>🔄</span> Refresh Data';
+        
+        console.log('✅ Refresh request berhasil dikirim');
+      } catch (error) {
+        console.error('❌ Error refreshing data:', error);
+        showToast('⚠️ Gagal mengirim permintaan refresh. Pastikan Google Sheets API terhubung.', 'error');
+        
+        const refreshBtn = document.getElementById('refresh-btn');
+        refreshBtn.disabled = false;
+        refreshBtn.innerHTML = '<span>🔄</span> Refresh Data';
+      }
+    }
+
+    // Send to Google Sheets
+    document.getElementById('confirm-send').addEventListener('click', async function() {
+      this.disabled = true;
+      this.textContent = 'Mengirim...';
+
+      try {
+        // Filter hanya data baru yang belum dikirim
+        const newData = errorData.filter(item => !uploadedDataIds.has(item.__backendId));
+        const success = await uploadToGoogleSheets(newData);
+        
+        if (success) {
+          this.disabled = false;
+          this.textContent = 'Ya, Buka Google Sheets';
+          document.getElementById('send-modal').classList.add('hidden');
+          showToast('✅ Data baru berhasil dikirim ke Google Sheets!', 'success');
+        }
+      } catch (error) {
+        console.error('❌ Error:', error);
+        showToast('⚠️ Terjadi kesalahan saat mengirim. Periksa console untuk detail.', 'error');
+        this.disabled = false;
+        this.textContent = 'Ya, Buka Google Sheets';
+      }
+    });
+
+    document.getElementById('cancel-send').addEventListener('click', function() {
+      document.getElementById('send-modal').classList.add('hidden');
+    });
+
+    // Reset button handler
+    document.getElementById('reset-btn').addEventListener('click', function() {
+      pendingAction = 'reset';
+      document.getElementById('security-code-input').value = '';
+      document.getElementById('security-error').classList.add('hidden');
+      document.getElementById('security-modal').classList.remove('hidden');
+    });
+
+    // Refresh confirmation modal
+    const refreshConfirmModal = document.createElement('div');
+    refreshConfirmModal.id = 'refresh-confirm-modal';
+    refreshConfirmModal.className = 'hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    refreshConfirmModal.innerHTML = `
+      <div class="bg-white rounded-2xl p-6 max-w-md mx-4 shadow-2xl">
+        <h3 class="text-lg font-semibold text-slate-800 mb-2">🔄 Konfirmasi Refresh</h3>
+        <p class="text-slate-600 mb-4">Refresh akan menghapus data lokal dan memuat ulang dari Google Sheets. Lanjutkan?</p>
+        <div class="flex gap-3 justify-end">
+          <button type="button" id="cancel-refresh" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-xl transition-all">
+            Batal
+          </button>
+          <button type="button" id="confirm-refresh" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-all">
+            Ya, Refresh
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(refreshConfirmModal);
+
+    document.getElementById('cancel-refresh').addEventListener('click', function() {
+      document.getElementById('refresh-confirm-modal').classList.add('hidden');
+    });
+
+    document.getElementById('confirm-refresh').addEventListener('click', async function() {
+      document.getElementById('refresh-confirm-modal').classList.add('hidden');
+      await refreshDataFromGoogleSheets();
+    });
+
+    // Refresh button handler
+    document.getElementById('refresh-btn').addEventListener('click', function() {
+      const refreshBtn = this;
+      refreshBtn.disabled = true;
+      refreshBtn.innerHTML = '<span class="animate-spin">🔄</span> Memproses...';
+
+      // STEP 1: Hapus SEMUA data dari Google Sheets
+      deleteAllFromGoogleSheets().then(() => {
+        // Tunggu 500ms
+        setTimeout(() => {
+          // STEP 2: Kirim data Canva ke Google Sheets
+          if (errorData.length > 0) {
+            uploadToGoogleSheets(errorData).then(() => {
+              showToast(`✅ Refresh berhasil! ${errorData.length} data tersinkronisasi.`, 'success');
+              refreshBtn.disabled = false;
+              refreshBtn.innerHTML = '<span>🔄</span> Refresh Data';
+            }).catch(err => {
+              console.error('Error uploading:', err);
+              showToast('⚠️ Gagal upload data. Silakan coba lagi.', 'error');
+              refreshBtn.disabled = false;
+              refreshBtn.innerHTML = '<span>🔄</span> Refresh Data';
+            });
+          } else {
+            showToast('✅ Refresh berhasil! Data Canva kosong dan Google Sheet sudah dibersihkan.', 'success');
+            refreshBtn.disabled = false;
+            refreshBtn.innerHTML = '<span>���</span> Refresh Data';
+          }
+        }, 500);
+      }).catch(err => {
+        console.error('Error deleting all:', err);
+        showToast('⚠️ Gagal menghapus data lama. Silakan coba lagi.', 'error');
+        refreshBtn.disabled = false;
+        refreshBtn.innerHTML = '<span>🔄</span> Refresh Data';
+      });
+    });
+
+    // Send button handler
+    document.getElementById('send-btn').addEventListener('click', function() {
+      const newDataCount = errorData.filter(item => !uploadedDataIds.has(item.__backendId)).length;
+      
+      if (newDataCount === 0) {
+        showToast('Semua data sudah dikirim. Tidak ada data baru.', 'info');
         return;
       }
       
-      // Setup login form for when user logs out and back in
-      document.getElementById('login-form').addEventListener('submit', handleLogin);
+      // Clear browser's saved password
+      if (navigator.credentials) {
+        navigator.credentials.preventSilentAccess();
+      }
+      pendingAction = 'send';
+      document.getElementById('send-modal-msg').textContent = `Kirim ${newDataCount} data baru ke Google Sheets?`;
+      document.getElementById('send-modal').classList.remove('hidden');
+    });
+
+    // Toast notification
+    function showToast(message, type = 'success') {
+      const existing = document.querySelector('.toast-notification');
+      if (existing) existing.remove();
       
-      // Load profile and data
-      loadProfile();
-      loadPeriod();
-      loadData();
+      const toast = document.createElement('div');
+      toast.className = `toast-notification fixed bottom-4 right-4 px-6 py-3 rounded-xl shadow-lg z-50 flex items-center gap-2 ${
+        type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+      }`;
+      toast.innerHTML = `
+        <span>${type === 'success' ? '�������������' : '��'}</span>
+        <span>${message}</span>
+      `;
+      document.body.appendChild(toast);
       
-      // Profile picture upload handler
-      document.getElementById('profile-pic-input').addEventListener('change', handleProfilePicUpload);
-      
-      // Period input auto-save handlers
-      document.getElementById('bulan-input').addEventListener('input', savePeriod);
-      document.getElementById('tahun-input').addEventListener('input', savePeriod);
-      
-      // Set today's date as default
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById('tanggal').value = today;
-      
-      // Employee select handler
-      const employeeSelect = document.getElementById('employee-select');
-      const manualContainer = document.getElementById('manual-input-container');
-      
-      employeeSelect.addEventListener('change', (e) => {
-        if (e.target.value === 'manual') {
-          manualContainer.classList.remove('hidden');
-        } else {
-          manualContainer.classList.add('hidden');
-          document.getElementById('manual-nik').value = '';
-          document.getElementById('manual-nama').value = '';
-        }
-      });
-      
-      // Form submission
-      document.getElementById('error-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const submitBtn = document.getElementById('submit-btn');
-        
-        // Check data limit
-        if (currentData.length >= 999) {
-          showToast('Batas maksimum 999 data tercapai!', 'error');
-          return;
-        }
-        
-        const employeeValue = employeeSelect.value;
-        let nik, nama;
-        
-        if (employeeValue === 'manual') {
-          nik = document.getElementById('manual-nik').value.trim();
-          nama = document.getElementById('manual-nama').value.trim();
-          if (!nik || !nama) {
-            showToast('Mohon isi NIK dan Nama manual', 'error');
-            return;
-          }
-        } else if (employeeValue) {
-          [nik, nama] = employeeValue.split('|');
-        } else {
-          showToast('Mohon pilih karyawan', 'error');
-          return;
-        }
-        
-        const tanggal = document.getElementById('tanggal').value;
-        const kesalahanTulis = document.getElementById('kesalahan-tulis').value.trim();
-        const lainLain = document.getElementById('lain-lain').value.trim();
-        const keterangan = document.getElementById('keterangan').value.trim();
-        
-        if (!tanggal) {
-          showToast('Mohon isi tanggal', 'error');
-          return;
-        }
-        
-        const newRecord = {
-          id: Date.now().toString(),
-          tanggal: tanggal,
-          nik: nik,
-          nama: nama,
-          kesalahan_tulis: kesalahanTulis,
-          lain_lain: lainLain,
-          keterangan: keterangan
-        };
-        
-        currentData.push(newRecord);
-        saveData();
-        renderTable(currentData);
-        showToast('Data berhasil disimpan!');
-        
-        // Reset form
-        employeeSelect.value = '';
-        manualContainer.classList.add('hidden');
-        document.getElementById('manual-nik').value = '';
-        document.getElementById('manual-nama').value = '';
-        document.getElementById('kesalahan-tulis').value = '';
-        document.getElementById('lain-lain').value = '';
-        document.getElementById('keterangan').value = '';
-        document.getElementById('tanggal').value = today;
-      });
-      
-      // Reset button
-      document.getElementById('reset-btn').addEventListener('click', openResetModal);
-      
-      // Send to sheets button
-      document.getElementById('send-sheets-btn').addEventListener('click', sendToSheets);
-      
-      showToast('Aplikasi siap digunakan!', 'info');
+      setTimeout(() => toast.remove(), 3000);
     }
 
-    // Start app when DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initApp);
-    } else {
-      initApp();
+    // Data handler - filter error data dan employee data
+    const dataHandler = {
+      onDataChanged(data) {
+        // Pisahkan employee dari error data
+        const employeeRecords = data.filter(item => item.type === 'employee');
+        const errorRecords = data.filter(item => !item.type || item.type !== 'employee');
+        
+        // STEP 1: Mulai dengan default employees
+        employees = [...defaultEmployees];
+        deletedDefaultEmployees = loadDeletedEmployees();
+        
+        // STEP 2: Filter out deleted default employees
+        employees = employees.filter(emp => 
+          !deletedDefaultEmployees.includes(emp.nik)
+        );
+        
+        // STEP 3: Tambah semua employee records dari Canva Sheet
+        employeeRecords.forEach(emp => {
+          if (!employees.find(e => e.nik === emp.nik)) {
+            employees.push({
+              nik: emp.nik,
+              nama: emp.nama
+            });
+          }
+        });
+        
+        // Update error data
+        errorData = errorRecords;
+        
+        // Update UI
+        populateNikDropdown();
+        renderEmployeesList();
+        renderTable();
+      }
+    };
+
+    // Element SDK config
+    const elementHandler = {
+      defaultConfig,
+      onConfigChange: async (config) => {
+        const title = config.app_title || defaultConfig.app_title;
+        document.getElementById('app-title').textContent = title;
+      },
+      mapToCapabilities: (config) => ({
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ["app_title", config.app_title || defaultConfig.app_title]
+      ])
+    };
+
+    // Initialize
+    async function init() {
+      initLogin();
+      
+      document.getElementById('tanggal').valueAsDate = new Date();
+      
+      // Load custom employees dari localStorage
+      const customEmps = loadCustomEmployees();
+      employees = [...defaultEmployees, ...customEmps];
+      deletedDefaultEmployees = loadDeletedEmployees();
+      
+      // Filter out deleted default employees
+      employees = employees.filter(emp => 
+        !deletedDefaultEmployees.includes(emp.nik)
+      );
+      
+      populateNikDropdown();
+      renderEmployeesList();
+      
+      if (window.elementSdk) {
+        window.elementSdk.init(elementHandler);
+      }
+      
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          showToast('Gagal menghubungkan ke database.', 'error');
+        }
+      }
     }
+
+    init();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c56bc47b670a6d7',t:'MTc2OTY2ODc5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cdd8d64a2293fb8',t:'MTc3MTA4MjQ1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
